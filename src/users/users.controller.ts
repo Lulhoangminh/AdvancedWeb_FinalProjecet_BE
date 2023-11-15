@@ -15,7 +15,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
+import { UpdateUseEmailDto } from './dto/update-user-email.dto';
+import { Public } from 'src/common/decorators';
+import { UpdateUserPasswordDto } from './dto/update-user-password.dto';
 
+@Public()
 @Controller('users')
 @ApiTags('users')
 export class UsersController {
@@ -51,6 +55,20 @@ export class UsersController {
   @ApiOkResponse({ type: UserEntity })
   update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
     return this.Users.update(id, updateUserDto);
+  }
+
+  @Patch(':id/email')
+  @ApiOkResponse({ type: UserEntity })
+  updateEmail(@Param('id', ParseIntPipe) id: number, @Body() updateUserEmail: UpdateUseEmailDto) {
+    const { email } = updateUserEmail
+    return this.Users.updateEmail(id, email);
+  }
+
+  @Patch(':id/password')
+  @ApiOkResponse({ type: UserEntity })
+  updatePassword(@Param('id', ParseIntPipe) id: number, @Body() updateUserPassword: UpdateUserPasswordDto) {
+    const { password } = updateUserPassword
+    return this.Users.updatePassword(id, password);
   }
 
   @Delete(':id')

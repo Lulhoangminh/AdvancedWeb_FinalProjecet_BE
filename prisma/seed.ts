@@ -15,7 +15,7 @@ async function main() {
       id: 1,
       createdAt   : new Date(),
       email       : 'minhluu1101@gmail.com',
-      hash : '',
+      hash : '$2b$10$sbDJSEUQ9if.EK8fHT.lVuJqKxyzW7Z1r7kl5l9WnvtaXSvHBKtQm',
       hashedRt : ''
     }
     });
@@ -28,7 +28,7 @@ async function main() {
       id: 2,
       email       : 'DuyNien2202@gmail.com',
       createdAt   : new Date(),
-      hash : '',
+      hash : '$2b$10$sbDJSEUQ9if.EK8fHT.lVuJqKxyzW7Z1r7kl5l9WnvtaXSvHBKtQm',
       hashedRt : ''
     }
     });    
