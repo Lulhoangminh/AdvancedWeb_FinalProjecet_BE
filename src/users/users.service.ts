@@ -4,61 +4,67 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 
-
-
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   create(createUserDto: CreateUserDto) {
     return this.prisma.user.create({
-      data: createUserDto
-    })
+      data: createUserDto,
+    });
   }
 
   findAll() {
-    return this.prisma.user.findMany({ where: { } });
+    return this.prisma.user.findMany({ where: {} });
   }
 
-  async findOne(id: number) {
+  findOne(id: number) {
     return this.prisma.user.findUnique({
-      where: { id: id } 
+      where: { id: id },
+    });
+  }
+
+  findByEmail(email: string) {
+    return this.prisma.user.findUnique({
+      where: {
+        email,
+      },
     });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
-      where: {id},
-      data: updateUserDto
-    })
+      where: { id },
+      data: updateUserDto,
+    });
   }
 
   updateEmail(id: number, email: string) {
     return this.prisma.user.update({
-      where: {id},
+      where: { id },
       data: {
-        email
-      }
-    })
+        email,
+      },
+    });
   }
 
-  async updatePassword(id: number, new_password: string){
-    const hash = await this.hashData(new_password)
+  async updatePassword(id: number, new_password: string) {
+    const hash = await this.hashData(new_password);
     return this.prisma.user.update({
-      where: {id},
+      where: { id },
       data: {
-        hash
-      }
-    })
+        hash,
+      },
+    });
   }
 
   remove(id: number) {
     return this.prisma.user.delete({
-      where: {id}
-    })
+      where: { id },
+    });
   }
 
-  hashData(data: string){
+  hashData(data: string) {
     return bcrypt.hash(data, 10);
-}
+  }
 }
