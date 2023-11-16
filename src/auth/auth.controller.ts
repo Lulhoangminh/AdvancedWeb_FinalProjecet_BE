@@ -3,15 +3,8 @@ import { AuthService } from './auth.service';
 import { AuthDto } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Tokens } from './types';
-import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { AtGuard, RtGuard } from 'src/common/guards';
-import {
-  GetCurrentUser,
-  GetCurrentUserEmail,
-  GetCurrentUserId,
-  Public,
-} from 'src/common/decorators';
+import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
 import { UsersService } from 'src/users/users.service';
 
 @ApiTags('auth')
