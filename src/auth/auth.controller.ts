@@ -6,6 +6,7 @@ import { Tokens } from './types';
 import { AtGuard, RtGuard } from 'src/common/guards';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
 import { UsersService } from 'src/users/users.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -55,5 +56,15 @@ export class AuthController {
     @GetCurrentUser('refreshToken') refreshToken: string,
   ) {
     return this.AuthService.refreshTokens(userId, refreshToken);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard('google'))
+  async googleAuth(@Req() req) {}
+
+  @Get('google/callback')
+  @UseGuards(AuthGuard('google'))
+  googleAuthRedirect(@Req() req) {
+    return this.AuthService.googleLogin(req);
   }
 }

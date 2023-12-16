@@ -6,15 +6,170 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "postgresql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
 
-  email    String  @unique
-  hash     String
-  hashedRt String?
+  email            String   @unique
+  fullname         String
+  dob              DateTime @db.Date
+  hash             String
+  hashedRt         String?
+  Type             String
+  isEmailConfirmed Boolean  @default(false)
+  IsBanned         Boolean  @default(false)
+  IsLocked         Boolean  @default(false)
+
+  teacher Teacher?
+  student Student?
+  Admin   Admin?
+  Comment Comment[]
+}
+
+model Teacher {
+  user_id    Int @unique
+  teacher_id Int @id @default(autoincrement())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  ClassTeacher          ClassTeacher[]
+  ClassInviteForTeacher ClassInviteForTeacher[]
+  GradeReview           GradeReview[]
+}
+
+model Student {
+  user_id    Int @unique
+  student_id Int @id @default(autoincrement())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  ClassMember           ClassMember[]
+  ClassInviteForStudent ClassInviteForStudent[]
+  GradeReview           GradeReview[]
+  StudentGrade          StudentGrade[]
+}
+
+model Admin {
+  fullname String
+  user_id  Int    @unique
+
+  User User @relation(fields: [user_id], references: [id])
+}
+
+model Class {
+  class_id    Int    @id @default(autoincrement())
+  invite_code String @unique
+  invite_link String @unique
+
+  ClassTeacher     ClassTeacher[]
+  ClassMember      ClassMember[]
+  GradeComposition GradeComposition[]
+
+  ClassInviteForTeacher ClassInviteForTeacher?
+  ClassInviteForStudent ClassInviteForStudent?
+}
+
+model ClassTeacher {
+  teacher_id Int @unique
+  class_id   Int @unique
+
+  teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
+  class   Class?   @relation(fields: [class_id], references: [class_id])
+}
+
+model ClassMember {
+  student_id Int @unique
+  class_id   Int @unique
+
+  student Student? @relation(fields: [student_id], references: [student_id])
+  class   Class?   @relation(fields: [class_id], references: [class_id])
+}
+
+model ClassInviteForTeacher {
+  teacher_id Int @unique
+  class_id   Int @unique
+
+  teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
+  class   Class?   @relation(fields: [class_id], references: [class_id])
+}
+
+model ClassInviteForStudent {
+  student_id Int @unique
+  class_id   Int @unique
+
+  student Student? @relation(fields: [student_id], references: [student_id])
+  class   Class?   @relation(fields: [class_id], references: [class_id])
+}
+
+model GradeComposition {
+  grade_composition_id Int     @id @default(autoincrement())
+  name                 String
+  Percentage           Int
+  Rank                 Int
+  IsFinalized          Boolean
+  class_id             Int?
+
+  class Class? @relation(fields: [class_id], references: [class_id])
+
+  StudentGrade StudentGrade[]
+
+  @@index([class_id])
+}
+
+model StudentGrade {
+  student_grade_id     Int @id @default(autoincrement())
+  student_id           Int
+  grade_composition_id Int
+  grade                Int
+
+  student          Student?          @relation(fields: [student_id], references: [student_id])
+  gradeComposition GradeComposition? @relation(fields: [grade_composition_id], references: [grade_composition_id])
+
+  GradeReview GradeReview?
+
+  @@index([student_id])
+  @@index([grade_composition_id])
+}
+
+model GradeReview {
+  grade_review_id  Int @id @default(autoincrement())
+  student_id       Int
+  teacher_id       Int
+  student_grade_id Int @unique
+
+  current_Grade  Int
+  expected_Grade Int
+  final_grade    Int
+  explanation    String
+
+  student      Student?     @relation(fields: [student_id], references: [student_id])
+  teacher      Teacher?     @relation(fields: [teacher_id], references: [teacher_id])
+  studentGrade StudentGrade @relation(fields: [student_grade_id], references: [student_grade_id])
+
+  Comment Comment[]
+
+  @@index([student_id])
+  @@index([teacher_id])
+  @@index([student_grade_id])
+}
+
+model Comment {
+  comment_id      Int      @id @default(autoincrement())
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt()
+  grade_review_id Int
+  user_id         Int
+  comment         String
+
+  user        User        @relation(fields: [user_id], references: [id])
+  gradeReview GradeReview @relation(fields: [grade_review_id], references: [grade_review_id])
+
+  @@index([user_id])
+  @@index([grade_review_id])
 }
