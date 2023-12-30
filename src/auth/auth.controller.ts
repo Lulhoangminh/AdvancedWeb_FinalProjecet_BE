@@ -59,16 +59,6 @@ export class AuthController {
     return this.AuthService.refreshTokens(userId, refreshToken);
   }
 
-  // @Get()
-  // @UseGuards(AuthGuard('google'))
-  // async googleAuth(@Req() req) {}
-
-  // @Get('google/callback')
-  // @UseGuards(AuthGuard('google'))
-  // googleAuthRedirect(@Req() req) {
-  //   return this.AuthService.googleLogin(req);
-  // }
-
   @Public()
   @Get('google/login')
   @UseGuards(GoogleAuthGuard)
@@ -94,4 +84,18 @@ export class AuthController {
     }
     // return req.user;
   }
+
+  // @Get('confirm')
+  // async confirmUser(@Query('code') code: string) {
+  //   const user = await
+
+  //   if (!user) {
+  //     throw new NotFoundException('User not found');
+  //   }
+
+  //   // Mark the user as confirmed in the database
+  //   await this.userService.confirmUser(user.id);
+
+  //   return 'User confirmed successfully';
+  // }
 }

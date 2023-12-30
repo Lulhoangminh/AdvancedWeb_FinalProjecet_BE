@@ -7,62 +7,60 @@ import {
   MaxLength,
   MinLength,
   IsPhoneNumber,
+  IsISO8601,
+  IsEmail,
+  IsIn,
 } from 'class-validator';
 
 export class CreateUserDto {
-  @IsString()
   @ApiProperty()
-  @IsNotEmpty()
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for createdAt' })
+  @IsNotEmpty({ message: 'createdAt is required' })
   createdAt: Date;
 
-  @IsString()
   @ApiProperty()
-  @IsNotEmpty()
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for updatedAt' })
+  @IsNotEmpty({ message: 'updatedAt is required' })
   updatedAt: Date;
 
-  @IsString()
   @ApiProperty()
-  @IsNotEmpty()
+  @IsEmail({}, { message: 'Invalid email format' })
   email: string;
 
-  @IsString()
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   fullname: string;
 
-  @IsString()
   @ApiProperty()
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for dob' })
+  @IsNotEmpty({ message: 'dob is required' })
   dob: Date;
 
-  @IsString()
   @ApiProperty()
+  @IsString()
   @IsNotEmpty()
   hash: string;
 
-  @IsString()
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
   hashedRt: string;
 
-  @IsString()
   @ApiProperty()
+  @IsString()
+  @IsIn(['admin', 'student', 'teacher'], { message: 'Invalid user type' })
   Type: string;
 
-  @IsBoolean()
   @ApiProperty()
+  @IsBoolean()
   isEmailConfirmed: boolean;
 
-  @IsBoolean()
   @ApiProperty()
+  @IsBoolean()
   IsBanned: boolean;
 
-  @IsBoolean()
   @ApiProperty()
+  @IsBoolean()
   IsLocked: boolean;
-
-  // id
-  // phone_number
-  // createdAt
-  // username
-  // email
-  // hash
-  // hashedRt
 }

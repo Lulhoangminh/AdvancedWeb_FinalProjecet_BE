@@ -32,6 +32,14 @@ export class UsersService {
     });
   }
 
+  // findByConfirmationCode(code: string) {
+  //   return this.prisma.user.findOne({
+  //     where: {
+  //       confirmationCode: code,
+  //     },
+  //   });
+  // }
+
   update(id: number, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
       where: { id },

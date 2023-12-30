@@ -11,6 +11,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
 import { PassportModule } from '@nestjs/passport';
+import { TeachersModule } from './teachers/teachers.module';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { PassportModule } from '@nestjs/passport';
     AuthModule,
     JwtModule,
     PassportModule.register({ session: true }),
+    TeachersModule,
+    StudentsModule,
   ],
   controllers: [AppController, AuthController],
   providers: [

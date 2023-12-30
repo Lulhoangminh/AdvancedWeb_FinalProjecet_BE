@@ -110,6 +110,10 @@ export class AuthService {
     return;
   }
 
+  // async findUserByConfirmationCode(code: string){
+  //   return this.prisma.user.findByConfirmationCode(code);
+  // }
+
   //Util functions
 
   async updateRtHash(userId: number, rt: string) {

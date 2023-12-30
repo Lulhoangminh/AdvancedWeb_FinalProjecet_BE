@@ -23,6 +23,9 @@ export class UserEntity implements User {
   @ApiProperty()
   Type: string;
 
+  @ApiProperty()
+  confirmationCode: string;
+
   @ApiProperty({ default: false })
   //default is false
   isEmailConfirmed: boolean;

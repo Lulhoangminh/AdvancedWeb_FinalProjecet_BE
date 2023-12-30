@@ -22,6 +22,7 @@ model User {
   hash             String?
   hashedRt         String?
   Type             String?
+  confirmationCode String?   @unique
   isEmailConfirmed Boolean   @default(false)
   IsBanned         Boolean   @default(false)
   IsLocked         Boolean   @default(false)
@@ -38,11 +39,11 @@ model Teacher {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  user User @relation(fields: [user_id], references: [id])
-
-  ClassTeacher          ClassTeacher[]
+  user                  User                    @relation(fields: [user_id], references: [id])
   ClassInviteForTeacher ClassInviteForTeacher[]
-  GradeReview           GradeReview[]
+
+  ClassTeacher ClassTeacher[]
+  GradeReview  GradeReview[]
 }
 
 model Student {
