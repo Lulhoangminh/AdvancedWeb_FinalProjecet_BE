@@ -10,16 +10,24 @@ import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './common/guards';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [PrismaModule, UsersModule, AuthModule, JwtModule],
+  imports: [
+    PrismaModule,
+    UsersModule,
+    AuthModule,
+    JwtModule,
+    PassportModule.register({ session: true }),
+  ],
   controllers: [AppController, AuthController],
   providers: [
-    AppService, 
+    AppService,
     AuthService,
     {
       provide: APP_GUARD,
-      useClass: AtGuard
-    }],
+      useClass: AtGuard,
+    },
+  ],
 })
 export class AppModule {}

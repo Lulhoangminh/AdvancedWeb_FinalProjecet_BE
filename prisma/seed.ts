@@ -6,33 +6,41 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    const user1 = await prisma.user.upsert({
+  const user1 = await prisma.user.upsert({
     where: {
       id: 1,
     },
     update: {},
     create: {
       id: 1,
-      createdAt   : new Date(),
-      email       : 'minhluu1101@gmail.com',
-      hash : '$2b$10$sbDJSEUQ9if.EK8fHT.lVuJqKxyzW7Z1r7kl5l9WnvtaXSvHBKtQm',
-      hashedRt : ''
-    }
-    });
-    const user2 = await prisma.user.upsert({
-    where: {
-      id: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      email: 'minhluu1101@gmail.com',
+      fullname: 'Minh Luu',
+      dob: new Date('2000-01-01'),
+      hash: '$2b$10$sbDJSEUQ9if.EK8fHT.lVuJqKxyzW7Z1r7kl5l9WnvtaXSvHBKtQm',
+      hashedRt: '',
+      Type: 'student',
+      isEmailConfirmed: true,
+      IsBanned: false,
+      IsLocked: false,
     },
-    update: {},
-    create: {
-      id: 2,
-      email       : 'DuyNien2202@gmail.com',
-      createdAt   : new Date(),
-      hash : '$2b$10$sbDJSEUQ9if.EK8fHT.lVuJqKxyzW7Z1r7kl5l9WnvtaXSvHBKtQm',
-      hashedRt : ''
-    }
-    });    
-  console.log({ user1, user2 });
+  });
+
+  // createdAt DateTime @default(now())
+  // updatedAt DateTime @updatedAt()
+
+  // email            String   @unique
+  // fullname         String?
+  // dob              DateTime @db.Date
+  // hash             String
+  // hashedRt         String?
+  // Type             String
+  // isEmailConfirmed Boolean  @default(false)
+  // IsBanned         Boolean  @default(false)
+  // IsLocked         Boolean  @default(false)
+
+  console.log({ user1 });
 }
 
 // execute the main function

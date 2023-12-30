@@ -13,18 +13,18 @@ datasource db {
 
 model User {
   id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+  createdAt DateTime @default(now()) @db.Date
+  updatedAt DateTime @updatedAt() @db.Date
 
-  email            String   @unique
-  fullname         String
-  dob              DateTime @db.Date
-  hash             String
+  email            String    @unique
+  fullname         String?
+  dob              DateTime? @db.Date
+  hash             String?
   hashedRt         String?
-  Type             String
-  isEmailConfirmed Boolean  @default(false)
-  IsBanned         Boolean  @default(false)
-  IsLocked         Boolean  @default(false)
+  Type             String?
+  isEmailConfirmed Boolean   @default(false)
+  IsBanned         Boolean   @default(false)
+  IsLocked         Boolean   @default(false)
 
   teacher Teacher?
   student Student?
@@ -33,8 +33,10 @@ model User {
 }
 
 model Teacher {
-  user_id    Int @unique
-  teacher_id Int @id @default(autoincrement())
+  user_id    Int      @unique
+  teacher_id Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   user User @relation(fields: [user_id], references: [id])
 
@@ -44,8 +46,10 @@ model Teacher {
 }
 
 model Student {
-  user_id    Int @unique
-  student_id Int @id @default(autoincrement())
+  user_id    Int      @unique
+  student_id Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   user User @relation(fields: [user_id], references: [id])
 
@@ -56,14 +60,19 @@ model Student {
 }
 
 model Admin {
-  fullname String
-  user_id  Int    @unique
+  user_id    Int      @unique
+  admin_id   Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   User User @relation(fields: [user_id], references: [id])
 }
 
 model Class {
-  class_id    Int    @id @default(autoincrement())
+  class_id   Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
   invite_code String @unique
   invite_link String @unique
 
@@ -92,28 +101,33 @@ model ClassMember {
 }
 
 model ClassInviteForTeacher {
-  teacher_id Int @unique
-  class_id   Int @unique
+  teacher_id   Int      @unique
+  class_id     Int      @unique
+  invited_time DateTime @default(now())
 
   teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
   class   Class?   @relation(fields: [class_id], references: [class_id])
 }
 
 model ClassInviteForStudent {
-  student_id Int @unique
-  class_id   Int @unique
+  student_id   Int      @unique
+  class_id     Int      @unique
+  invited_time DateTime @default(now())
 
   student Student? @relation(fields: [student_id], references: [student_id])
   class   Class?   @relation(fields: [class_id], references: [class_id])
 }
 
 model GradeComposition {
-  grade_composition_id Int     @id @default(autoincrement())
-  name                 String
-  Percentage           Int
-  Rank                 Int
-  IsFinalized          Boolean
+  grade_composition_id Int      @id @default(autoincrement())
   class_id             Int?
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt()
+
+  name        String
+  Percentage  Int
+  Rank        Int
+  IsFinalized Boolean
 
   class Class? @relation(fields: [class_id], references: [class_id])
 
@@ -123,9 +137,11 @@ model GradeComposition {
 }
 
 model StudentGrade {
-  student_grade_id     Int @id @default(autoincrement())
+  student_grade_id     Int      @id @default(autoincrement())
   student_id           Int
   grade_composition_id Int
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt()
   grade                Int
 
   student          Student?          @relation(fields: [student_id], references: [student_id])
@@ -138,10 +154,12 @@ model StudentGrade {
 }
 
 model GradeReview {
-  grade_review_id  Int @id @default(autoincrement())
+  grade_review_id  Int      @id @default(autoincrement())
+  student_grade_id Int      @unique
   student_id       Int
   teacher_id       Int
-  student_grade_id Int @unique
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt()
 
   current_Grade  Int
   expected_Grade Int
@@ -161,10 +179,10 @@ model GradeReview {
 
 model Comment {
   comment_id      Int      @id @default(autoincrement())
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt()
   grade_review_id Int
   user_id         Int
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt()
   comment         String
 
   user        User        @relation(fields: [user_id], references: [id])

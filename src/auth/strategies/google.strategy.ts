@@ -1,33 +1,31 @@
 import { PassportStrategy } from '@nestjs/passport';
 
-import { Strategy, VerifyCallback } from 'passport-google-oauth20';
+import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
 
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { AuthService } from '../auth.service';
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+export class GoogleStrategy extends PassportStrategy(Strategy) {
+  constructor(@Inject(AuthService) private readonly authService: AuthService) {
     super({
-      clientID: '576434745134-9jc7lfsjdm6om8suva70b0tefjij1ec8.apps.googleusercontent.com',
-      clientSecret: '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',
-      callbackURL: 'http://localhost:3000/',
-      scope: ['email', 'profile'],
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      callbackURL: process.env.CALLBACK_URL,
+      scope: ['profile', 'email'],
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    done: VerifyCallback,
-  ): Promise<any> {
-    const { name, emails, photos } = profile;
-    const user = {
-      email: emails[0].value,
-      firstName: name.givenName,
-      lastname: name.familyName,
-      picture: photos[0].value,
-    };
-    done(null, user);
+  async validate(accessToken: string, refreshToken: string, profile: Profile): Promise<any> {
+    // console.log(accessToken);
+    // console.log(refreshToken);
+    // console.log(profile);
+    const user = this.authService.validateUser({
+      email: profile.emails[0].value,
+      displayName: profile.displayName,
+    });
+    console.log('Validate');
+    console.log(user);
+    return user || null;
   }
 }

@@ -7,6 +7,7 @@ import { AtGuard, RtGuard } from 'src/common/guards';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
 import { UsersService } from 'src/users/users.service';
 import { AuthGuard } from '@nestjs/passport';
+import { GoogleAuthGuard } from 'src/common/guards/google.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -58,13 +59,39 @@ export class AuthController {
     return this.AuthService.refreshTokens(userId, refreshToken);
   }
 
-  @Get()
-  @UseGuards(AuthGuard('google'))
-  async googleAuth(@Req() req) {}
+  // @Get()
+  // @UseGuards(AuthGuard('google'))
+  // async googleAuth(@Req() req) {}
 
-  @Get('google/callback')
-  @UseGuards(AuthGuard('google'))
-  googleAuthRedirect(@Req() req) {
-    return this.AuthService.googleLogin(req);
+  // @Get('google/callback')
+  // @UseGuards(AuthGuard('google'))
+  // googleAuthRedirect(@Req() req) {
+  //   return this.AuthService.googleLogin(req);
+  // }
+
+  @Public()
+  @Get('google/login')
+  @UseGuards(GoogleAuthGuard)
+  handleLogin() {
+    return { msg: 'login ok' };
+  }
+
+  @Public()
+  @Get('google/redirect')
+  @UseGuards(GoogleAuthGuard)
+  handleRedirect() {
+    return { msg: 'redirect ok' };
+  }
+
+  @Public()
+  @Get('status')
+  user(@Req() req) {
+    console.log(req.user);
+    if (req.user) {
+      return { msg: 'Authenticated' };
+    } else {
+      return { msg: 'Not Authenticated' };
+    }
+    // return req.user;
   }
 }

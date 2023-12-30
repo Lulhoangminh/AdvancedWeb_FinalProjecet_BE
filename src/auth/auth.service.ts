@@ -4,6 +4,8 @@ import { AuthDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { Tokens } from './types';
 import { JwtService } from '@nestjs/jwt';
+import { UserDetails } from './types/types';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
@@ -84,6 +86,28 @@ export class AuthService {
       message: 'User information from google',
       user: req.user,
     };
+  }
+
+  async validateUser(details: UserDetails) {
+    console.log('AuthService');
+    console.log(details);
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: details.email,
+      },
+    });
+    console.log(user);
+    if (user) {
+      return user;
+    }
+    console.log('User not found. Creating new user...');
+    const newUser = await this.prisma.user.create({
+      data: {
+        email: details.email,
+        fullname: details.displayName,
+      },
+    });
+    return;
   }
 
   //Util functions
