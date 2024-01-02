@@ -8,7 +8,9 @@ export class StudentsService {
   constructor(private prisma: PrismaService) {}
 
   create(createStudentDto: CreateStudentDto) {
-    return 'This action adds a new student';
+    return this.prisma.student.create({
+      data: createStudentDto,
+    });
   }
 
   findAll() {
@@ -24,10 +26,19 @@ export class StudentsService {
   }
 
   update(id: number, updateStudentDto: UpdateStudentDto) {
-    return `This action updates a #${id} student`;
+    return this.prisma.student.update({
+      where: {
+        user_id: id,
+      },
+      data: updateStudentDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} student`;
+    return this.prisma.student.delete({
+      where: {
+        user_id: id,
+      },
+    });
   }
 }

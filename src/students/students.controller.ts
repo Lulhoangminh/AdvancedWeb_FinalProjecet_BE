@@ -7,42 +7,56 @@ import {
   Param,
   Delete,
   NotFoundException,
+  ParseIntPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { StudentEntity } from './entities/student.entity';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+import { Public } from 'src/common/decorators';
 
+@Public()
 @Controller('students')
+@ApiTags('students')
+@UseFilters(PrismaClientExceptionFilter)
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}
 
   @Post()
+  @ApiCreatedResponse({ type: StudentEntity })
   create(@Body() createStudentDto: CreateStudentDto) {
     return this.studentsService.create(createStudentDto);
   }
 
   @Get()
+  @ApiCreatedResponse({ type: StudentEntity, isArray: true })
   findAll() {
     return this.studentsService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  @ApiCreatedResponse({ type: StudentEntity, isArray: true })
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     const student = await this.studentsService.findOne(+id);
 
     if (!student) {
       throw new NotFoundException(`Student #${id} not found`);
-      return student;
     }
+    return student;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  @ApiCreatedResponse({ type: StudentEntity })
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(+id, updateStudentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  @ApiCreatedResponse({ type: StudentEntity })
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.studentsService.remove(+id);
   }
 }

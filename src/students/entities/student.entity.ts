@@ -1,15 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Student } from '@prisma/client';
 
-export class Student {
+export class StudentEntity implements Student {
   @ApiProperty()
-  user_id;
-
-  @ApiProperty()
-  student_id;
+  user_id: number;
 
   @ApiProperty()
-  created_at;
+  student_id: number;
 
   @ApiProperty()
-  updated_at;
+  created_at: Date;
+
+  @ApiProperty()
+  updated_at: Date;
 }

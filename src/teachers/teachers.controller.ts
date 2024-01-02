@@ -8,15 +8,20 @@ import {
   Delete,
   NotFoundException,
   ParseIntPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { TeachersService } from './teachers.service';
 import { CreateTeacherDto } from './dto/create-teacher.dto';
 import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { TeacherEntity } from './entities/teacher.entity';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
+import { Public } from 'src/common/decorators';
 
+@Public()
 @Controller('teachers')
 @ApiTags('teachers')
+@UseFilters(PrismaClientExceptionFilter)
 export class TeachersController {
   constructor(private readonly teachersService: TeachersService) {}
 
