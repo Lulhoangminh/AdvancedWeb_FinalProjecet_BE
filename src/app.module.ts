@@ -13,6 +13,8 @@ import { AtGuard } from './common/guards';
 import { PassportModule } from '@nestjs/passport';
 import { TeachersModule } from './teachers/teachers.module';
 import { StudentsModule } from './students/students.module';
+import { AdminsModule } from './admins/admins.module';
+import { ClassesModule } from './classes/classes.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { StudentsModule } from './students/students.module';
     PassportModule.register({ session: true }),
     TeachersModule,
     StudentsModule,
+    AdminsModule,
+    ClassesModule,
   ],
   controllers: [AppController, AuthController],
   providers: [
