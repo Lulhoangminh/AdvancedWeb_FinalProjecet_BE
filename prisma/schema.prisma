@@ -81,42 +81,50 @@ model Class {
   ClassMember      ClassMember[]
   GradeComposition GradeComposition[]
 
-  ClassInviteForTeacher ClassInviteForTeacher?
-  ClassInviteForStudent ClassInviteForStudent?
+  ClassInviteForTeacher ClassInviteForTeacher[]
+  ClassInviteForStudent ClassInviteForStudent[]
 }
 
 model ClassTeacher {
-  teacher_id Int @unique
-  class_id   Int @unique
+  teacher_id Int
+  class_id   Int
 
   teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
   class   Class?   @relation(fields: [class_id], references: [class_id])
+
+  @@unique([teacher_id, class_id])
 }
 
 model ClassMember {
-  student_id Int @unique
-  class_id   Int @unique
+  student_id Int
+  class_id   Int
 
   student Student? @relation(fields: [student_id], references: [student_id])
   class   Class?   @relation(fields: [class_id], references: [class_id])
+
+  @@unique([student_id, class_id])
 }
 
 model ClassInviteForTeacher {
-  teacher_id   Int      @unique
-  class_id     Int      @unique
+  teacher_id   Int
+  class_id     Int
   invited_time DateTime @default(now())
 
   teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
   class   Class?   @relation(fields: [class_id], references: [class_id])
+
+  @@unique([class_id, teacher_id])
 }
 
 model ClassInviteForStudent {
-  student_id   Int      @unique
-  class_id     Int      @unique
+  student_id   Int
+  class_id     Int
   invited_time DateTime @default(now())
 
   student Student? @relation(fields: [student_id], references: [student_id])
   class   Class?   @relation(fields: [class_id], references: [class_id])
+
+  @@unique([student_id, class_id])
 }
 
 model GradeComposition {
@@ -167,9 +175,9 @@ model GradeReview {
   final_grade    Int
   explanation    String
 
-  student      Student?     @relation(fields: [student_id], references: [student_id])
-  teacher      Teacher?     @relation(fields: [teacher_id], references: [teacher_id])
-  studentGrade StudentGrade @relation(fields: [student_grade_id], references: [student_grade_id])
+  student      Student?      @relation(fields: [student_id], references: [student_id])
+  teacher      Teacher?      @relation(fields: [teacher_id], references: [teacher_id])
+  studentGrade StudentGrade? @relation(fields: [student_grade_id], references: [student_grade_id])
 
   Comment Comment[]
 

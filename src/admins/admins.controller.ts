@@ -39,8 +39,8 @@ export class AdminsController {
 
   @Get(':id')
   @ApiOkResponse({ type: AdminEntity, isArray: true })
-  findOne(@Param('id', ParseIntPipe) id: string) {
-    const admin = this.adminsService.findOne(+id);
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    const admin = this.adminsService.findOne(id);
 
     if (!admin) {
       throw new NotFoundException(`Admin #${id} not found`);
@@ -51,13 +51,13 @@ export class AdminsController {
 
   @Patch(':id')
   @ApiOkResponse({ type: AdminEntity })
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminsService.update(+id, updateAdminDto);
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateAdminDto: UpdateAdminDto) {
+    return this.adminsService.update(id, updateAdminDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: AdminEntity })
-  remove(@Param('id', ParseIntPipe) id: string) {
-    return this.adminsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.adminsService.remove(id);
   }
 }

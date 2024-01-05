@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClassDto } from './dto/create-class.dto';
+import CreateClassDto from './dto/create-class.dto';
 import { UpdateClassDto } from './dto/update-class.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ClassesService {
+  constructor(private prisma: PrismaService) {}
+
   create(createClassDto: CreateClassDto) {
-    return 'This action adds a new class';
+    return this.prisma.class.create({
+      data: createClassDto,
+    });
   }
 
   findAll() {
-    return `This action returns all classes`;
+    return this.prisma.class.findMany({
+      where: {},
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} class`;
+    return this.prisma.class.findUnique({
+      where: {
+        class_id: id,
+      },
+    });
   }
 
   update(id: number, updateClassDto: UpdateClassDto) {
-    return `This action updates a #${id} class`;
+    return this.prisma.class.update({
+      where: {
+        class_id: id,
+      },
+      data: updateClassDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} class`;
+    return this.prisma.class.delete({
+      where: {
+        class_id: id,
+      },
+    });
   }
 }

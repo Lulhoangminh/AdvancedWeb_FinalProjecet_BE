@@ -15,6 +15,7 @@ import { TeachersModule } from './teachers/teachers.module';
 import { StudentsModule } from './students/students.module';
 import { AdminsModule } from './admins/admins.module';
 import { ClassesModule } from './classes/classes.module';
+import { ClassTeachersModule } from './class_teachers/class_teachers.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ClassesModule } from './classes/classes.module';
     StudentsModule,
     AdminsModule,
     ClassesModule,
+    ClassTeachersModule,
   ],
   controllers: [AppController, AuthController],
   providers: [
