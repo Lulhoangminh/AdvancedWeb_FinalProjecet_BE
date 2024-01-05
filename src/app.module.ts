@@ -30,7 +30,6 @@ import { ClassMembersModule } from './class_members/class_members.module';
     AdminsModule,
     ClassesModule,
     ClassTeachersModule,
-    ClassStudentsModule,
     ClassMembersModule,
   ],
   controllers: [AppController, AuthController],
