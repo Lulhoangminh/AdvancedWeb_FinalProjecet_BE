@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ClassMembersService } from './class_members.service';
 import { CreateClassMemberDto } from './dto/create-class_member.dto';
 import { UpdateClassMemberDto } from './dto/update-class_member.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('class-members')
+@ApiTags('class-members')
 export class ClassMembersController {
   constructor(private readonly classMembersService: ClassMembersService) {}
 
@@ -19,12 +21,12 @@ export class ClassMembersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.classMembersService.findOne(+id);
+    // return this.classMembersService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateClassMemberDto: UpdateClassMemberDto) {
-    return this.classMembersService.update(+id, updateClassMemberDto);
+    // return this.classMembersService.update(+id, updateClassMemberDto);
   }
 
   @Delete(':id')

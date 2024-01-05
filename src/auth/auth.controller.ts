@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthDto } from './dto';
+import { AuthDto, AuthSignInDto, AuthSignUpDto } from './dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Tokens } from './types';
 import { AtGuard, RtGuard } from 'src/common/guards';
@@ -25,18 +25,26 @@ export class AuthController {
     return this.UsersService.findOne(userId);
   }
 
+  @Get('profileUserByEmail')
+  @HttpCode(HttpStatus.OK)
+  @ApiBearerAuth()
+  getProfileUserByEmail(@GetCurrentUserId() userEmail: string) {
+    // console.log('user', userId);
+    return this.UsersService.fidndOneByEmail(userEmail);
+  }
+
   @Public()
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
-  signupLocal(@Body() dto: AuthDto): Promise<Tokens> {
-    return this.AuthService.signupLocal(dto);
+  signupLocal(@Body() signUpDto: AuthSignUpDto): Promise<Tokens> {
+    return this.AuthService.signupLocal(signUpDto);
   }
 
   @Public()
   @Post('signin')
   @HttpCode(HttpStatus.OK)
-  signinLocal(@Body() dto: AuthDto): Promise<Tokens> {
-    return this.AuthService.signinLocal(dto);
+  signinLocal(@Body() signInDto: AuthSignInDto): Promise<Tokens> {
+    return this.AuthService.signinLocal(signInDto);
   }
 
   @Post('logout')
