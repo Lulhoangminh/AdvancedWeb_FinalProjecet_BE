@@ -38,7 +38,7 @@ export class StudentsController {
   }
 
   @Get(':id')
-  @ApiCreatedResponse({ type: StudentEntity, isArray: true })
+  @ApiCreatedResponse({ type: StudentEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const student = await this.studentsService.findOne(+id);
 

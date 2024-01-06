@@ -38,7 +38,7 @@ export class ClassMembersController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ClassMemberEntity, isArray: true })
+  @ApiOkResponse({ type: ClassMemberEntity })
   async findOne(
     @Param('student_id', ParseIntPipe) student_id: number,
     @Param('class_id', ParseIntPipe) class_id: number,

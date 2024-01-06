@@ -38,7 +38,7 @@ export class ClassTeachersController {
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: ClassTeacherEntity, isArray: true })
+  @ApiOkResponse({ type: ClassTeacherEntity })
   async findOne(
     @Param('teacher_id', ParseIntPipe) teacher_id: number,
     @Param('class_id', ParseIntPipe) class_id: number,
