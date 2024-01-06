@@ -8,6 +8,7 @@ import {
   Delete,
   UseFilters,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { StudentGradesService } from './student_grades.service';
 import { CreateStudentGradeDto } from './dto/create-student_grade.dto';
@@ -38,23 +39,26 @@ export class StudentGradesController {
 
   @Get(':id')
   @ApiOkResponse({ type: StudentGradeEntity })
-  async findOne(@Param('id') id: string) {
-    const student_grade = await this.studentGradesService.findOne(+id);
+  async findOne(@Param('student_grade_id', ParseIntPipe) student_grade_id: number) {
+    const student_grade = await this.studentGradesService.findOne(student_grade_id);
 
     if (!student_grade) {
-      throw new NotFoundException(`Student grade with id ${id} not found`);
+      throw new NotFoundException(`Student grade with id ${student_grade_id} not found`);
     }
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: StudentGradeEntity })
-  update(@Param('id') id: string, @Body() updateStudentGradeDto: UpdateStudentGradeDto) {
-    return this.studentGradesService.update(+id, updateStudentGradeDto);
+  update(
+    @Param('student_grade_id', ParseIntPipe) student_grade_id: number,
+    @Body() updateStudentGradeDto: UpdateStudentGradeDto,
+  ) {
+    return this.studentGradesService.update(student_grade_id, updateStudentGradeDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: StudentGradeEntity })
-  remove(@Param('id') id: string) {
-    return this.studentGradesService.remove(+id);
+  remove(@Param('student_grade_id', ParseIntPipe) student_grade_id: number) {
+    return this.studentGradesService.remove(student_grade_id);
   }
 }

@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGradeReviewDto } from './dto/create-grade_review.dto';
 import { UpdateGradeReviewDto } from './dto/update-grade_review.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class GradeReviewsService {
+  constructor(private prisma: PrismaService) {}
+
   create(createGradeReviewDto: CreateGradeReviewDto) {
-    return 'This action adds a new gradeReview';
+    return this.prisma.gradeReview.create({
+      data: createGradeReviewDto,
+    });
   }
 
   findAll() {
-    return `This action returns all gradeReviews`;
+    return this.prisma.gradeReview.findMany({
+      where: {},
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} gradeReview`;
+    return this.prisma.gradeReview.findUnique({
+      where: {
+        grade_review_id: id,
+      },
+    });
   }
 
   update(id: number, updateGradeReviewDto: UpdateGradeReviewDto) {
-    return `This action updates a #${id} gradeReview`;
+    return this.prisma.gradeReview.update({
+      where: {
+        grade_review_id: id,
+      },
+      data: updateGradeReviewDto,
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} gradeReview`;
+    return this.prisma.gradeReview.delete({
+      where: {
+        grade_review_id: id,
+      },
+    });
   }
 }
