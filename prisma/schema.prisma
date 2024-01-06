@@ -151,7 +151,7 @@ model StudentGrade {
   grade_composition_id Int
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt()
-  grade                Int
+  grade                Float
 
   student          Student?          @relation(fields: [student_id], references: [student_id])
   gradeComposition GradeComposition? @relation(fields: [grade_composition_id], references: [grade_composition_id])
