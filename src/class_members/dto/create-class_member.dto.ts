@@ -5,10 +5,10 @@ export class CreateClassMemberDto {
   @ApiProperty()
   @IsInt({ message: 'Student ID must be an integer' })
   @IsNotEmpty({ message: 'Student ID is required' })
-  student_Id: number;
+  student_id: number;
 
   @ApiProperty()
   @IsInt({ message: 'Class ID must be an integer' })
   @IsNotEmpty({ message: 'Class ID is required' })
-  class_Id: number;
+  class_id: number;
 }

@@ -39,11 +39,11 @@ export class ClassTeachersController {
 
   @Get(':id')
   @ApiOkResponse({ type: ClassTeacherEntity, isArray: true })
-  findOne(
+  async findOne(
     @Param('teacher_id', ParseIntPipe) teacher_id: number,
     @Param('class_id', ParseIntPipe) class_id: number,
   ) {
-    const class_teacher = this.classTeachersService.findOne(+teacher_id, +class_id);
+    const class_teacher = await this.classTeachersService.findOne(+teacher_id, +class_id);
 
     if (!class_teacher) {
       throw new NotFoundException(

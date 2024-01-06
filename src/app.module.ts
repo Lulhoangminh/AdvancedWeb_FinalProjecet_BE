@@ -17,6 +17,12 @@ import { AdminsModule } from './admins/admins.module';
 import { ClassesModule } from './classes/classes.module';
 import { ClassTeachersModule } from './class_teachers/class_teachers.module';
 import { ClassMembersModule } from './class_members/class_members.module';
+import { ClassInvitesForTeacherModule } from './class_invites_for_teacher/class_invites_for_teacher.module';
+import { ClassInvitesForStudentModule } from './class_invites_for_student/class_invites_for_student.module';
+import { GradeCompositionsModule } from './grade_compositions/grade_compositions.module';
+import { StudentGradesModule } from './student_grades/student_grades.module';
+import { GradeReviewsModule } from './grade_reviews/grade_reviews.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -31,6 +37,12 @@ import { ClassMembersModule } from './class_members/class_members.module';
     ClassesModule,
     ClassTeachersModule,
     ClassMembersModule,
+    ClassInvitesForTeacherModule,
+    ClassInvitesForStudentModule,
+    GradeCompositionsModule,
+    StudentGradesModule,
+    GradeReviewsModule,
+    CommentsModule,
   ],
   controllers: [AppController, AuthController],
   providers: [

@@ -39,8 +39,8 @@ export class AdminsController {
 
   @Get(':id')
   @ApiOkResponse({ type: AdminEntity, isArray: true })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    const admin = this.adminsService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const admin = await this.adminsService.findOne(id);
 
     if (!admin) {
       throw new NotFoundException(`Admin #${id} not found`);
