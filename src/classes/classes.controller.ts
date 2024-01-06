@@ -60,4 +60,9 @@ export class ClassesController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.classesService.remove(id);
   }
+
+  @Get('/user/:userId')
+  async getClassesByUserId(@Param('userId') userId: number) {
+    return this.classesService.getClassesByUserId(userId);
+  }
 }

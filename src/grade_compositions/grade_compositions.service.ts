@@ -43,4 +43,15 @@ export class GradeCompositionsService {
       },
     });
   }
+
+  finalizeGradeComposition(grade_composition_id: number, is_finalized: boolean) {
+    return this.prisma.gradeComposition.update({
+      where: {
+        grade_composition_id,
+      },
+      data: {
+        IsFinalized: is_finalized,
+      },
+    });
+  }
 }

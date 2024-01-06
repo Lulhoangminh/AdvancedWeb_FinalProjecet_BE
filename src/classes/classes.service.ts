@@ -43,4 +43,15 @@ export class ClassesService {
       },
     });
   }
+
+  async getClassesByUserId(userId: number) {
+    return this.prisma.classMember.findMany({
+      where: {
+        student_id: userId,
+      },
+      include: {
+        class: true,
+      },
+    });
+  }
 }

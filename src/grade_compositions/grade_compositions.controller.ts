@@ -63,4 +63,16 @@ export class GradeCompositionsController {
   remove(@Param('grade_composition_id', ParseIntPipe) grade_composition_id: number) {
     return this.gradeCompositionsService.remove(grade_composition_id);
   }
+
+  @Patch(':id/finalize')
+  @ApiOkResponse({ type: GradeCompositionEntity })
+  finalizeGradeComposition(
+    @Param('grade_composition_id', ParseIntPipe) grade_composition_id: number,
+    @Param('is_finalized') is_finalized: boolean,
+  ) {
+    return this.gradeCompositionsService.finalizeGradeComposition(
+      grade_composition_id,
+      is_finalized,
+    );
+  }
 }
