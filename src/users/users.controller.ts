@@ -44,6 +44,7 @@ export class UsersController {
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const user = await this.Users.findOne(id);
+    console.log(id);
     if (!user) {
       throw new NotFoundException(`Could not find user with id: ${id}.`);
     }

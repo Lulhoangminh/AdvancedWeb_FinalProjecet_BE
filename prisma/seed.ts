@@ -27,20 +27,200 @@ async function main() {
     },
   });
 
-  // createdAt DateTime @default(now())
-  // updatedAt DateTime @updatedAt()
+  const teacher1 = await prisma.teacher.upsert({
+    where: {
+      user_id: 1,
+    },
+    update: {},
+    create: {
+      user_id: 1,
+      teacher_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  });
 
-  // email            String   @unique
-  // fullname         String?
-  // dob              DateTime @db.Date
-  // hash             String
-  // hashedRt         String?
-  // Type             String
-  // isEmailConfirmed Boolean  @default(false)
-  // IsBanned         Boolean  @default(false)
-  // IsLocked         Boolean  @default(false)
+  const student1 = await prisma.student.upsert({
+    where: {
+      user_id: 1,
+    },
+    update: {},
+    create: {
+      user_id: 1,
+      student_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  });
 
-  console.log({ user1 });
+  const admin1 = await prisma.admin.upsert({
+    where: {
+      user_id: 1,
+    },
+    update: {},
+    create: {
+      user_id: 1,
+      admin_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  });
+
+  const class1 = await prisma.class.upsert({
+    where: {
+      class_id: 1,
+    },
+    update: {},
+    create: {
+      class_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+      invite_code: '21u389012jo',
+      invite_link: 'https://dummylink.com/invite/21u389012jo',
+      status: 'active',
+      description: 'this is a dummy class',
+    },
+  });
+
+  const class_teacher1 = await prisma.classTeacher.upsert({
+    where: {
+      teacher_id_class_id: {
+        teacher_id: 1,
+        class_id: 1,
+      },
+    },
+    update: {},
+    create: {
+      teacher_id: 1,
+      class_id: 1,
+    },
+  });
+
+  const class_student1 = await prisma.classMember.upsert({
+    where: {
+      student_id_class_id: {
+        student_id: 1,
+        class_id: 1,
+      },
+    },
+    update: {},
+    create: {
+      student_id: 1,
+      class_id: 1,
+    },
+  });
+
+  const class_invite_for_teacher1 = await prisma.classInviteForTeacher.upsert({
+    where: {
+      class_id_teacher_id: {
+        teacher_id: 1,
+        class_id: 1,
+      },
+    },
+    update: {},
+    create: {
+      teacher_id: 1,
+      class_id: 1,
+      invited_time: new Date(),
+    },
+  });
+
+  const class_invite_for_student1 = await prisma.classInviteForStudent.upsert({
+    where: {
+      student_id_class_id: {
+        student_id: 1,
+        class_id: 1,
+      },
+    },
+    update: {},
+    create: {
+      student_id: 1,
+      class_id: 1,
+      invited_time: new Date(),
+    },
+  });
+
+  const grade_composition1 = await prisma.gradeComposition.upsert({
+    where: {
+      grade_composition_id: 1,
+    },
+    update: {},
+    create: {
+      grade_composition_id: 1,
+      class_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+      name: 'dummy grade composition',
+      Percentage: 10,
+      Rank: 1,
+      IsFinalized: false,
+    },
+  });
+
+  const student_grade1 = await prisma.studentGrade.upsert({
+    where: {
+      student_grade_id: 1,
+    },
+    update: {},
+    create: {
+      student_grade_id: 1,
+      student_id: 1,
+      grade_composition_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+      grade: 10,
+    },
+  });
+
+  const grade_review1 = await prisma.gradeReview.upsert({
+    where: {
+      grade_review_id: 1,
+    },
+    update: {},
+    create: {
+      grade_review_id: 1,
+      student_grade_id: 1,
+      student_id: 1,
+      teacher_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+      current_Grade: 8,
+      expected_Grade: 10,
+      final_grade: 9,
+      explanation: 'dummy explanation',
+    },
+  });
+
+  const comment1 = await prisma.comment.upsert({
+    where: {
+      comment_id: 1,
+    },
+    update: {},
+    create: {
+      comment_id: 1,
+      grade_review_id: 1,
+      user_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+      comment: 'dummy comment',
+    },
+  });
+
+  console.log({
+    user1,
+    teacher1,
+    student1,
+    admin1,
+    class1,
+    class_teacher1,
+    class_student1,
+    class_invite_for_teacher1,
+    class_invite_for_student1,
+    grade_composition1,
+    student_grade1,
+    grade_review1,
+    comment1,
+  });
 }
 
 // execute the main function

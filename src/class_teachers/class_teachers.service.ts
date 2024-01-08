@@ -19,15 +19,31 @@ export class ClassTeachersService {
     });
   }
 
-  findOne(class_id: number, teacher_id) {
-    return this.prisma.classTeacher.findUnique({
-      where: {
-        teacher_id_class_id: {
-          class_id,
-          teacher_id,
+  async find(class_id?: number, teacher_id?: number) {
+    if (class_id && teacher_id) {
+      return this.prisma.classTeacher.findUnique({
+        where: {
+          teacher_id_class_id: {
+            class_id,
+            teacher_id,
+          },
         },
-      },
-    });
+      });
+    } else if (class_id) {
+      return this.prisma.classTeacher.findMany({
+        where: {
+          class_id: class_id,
+        },
+      });
+    } else if (teacher_id) {
+      return this.prisma.classTeacher.findMany({
+        where: {
+          teacher_id: teacher_id,
+        },
+      });
+    } else {
+      throw new Error('Provide at least one of class_id or teacher_id');
+    }
   }
 
   update(class_id: number, teacher_id: number, updateClassTeacherDto: UpdateClassTeacherDto) {

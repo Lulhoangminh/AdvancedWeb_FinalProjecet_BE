@@ -62,7 +62,7 @@ export class ClassesController {
   }
 
   @Get('/user/:userId')
-  async getClassesByUserId(@Param('userId') userId: number) {
+  async getClassesByUserId(@Param('userId', ParseIntPipe) userId: number) {
     return this.classesService.getClassesByUserId(userId);
   }
 }

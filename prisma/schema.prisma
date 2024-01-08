@@ -27,10 +27,10 @@ model User {
   IsBanned         Boolean   @default(false)
   IsLocked         Boolean   @default(false)
 
-  teacher Teacher?
-  student Student?
-  Admin   Admin?
-  Comment Comment[]
+  teacher Teacher?  @relation("User_Teacher")
+  student Student?  @relation("User_Student")
+  Admin   Admin?    @relation("User_Admin")
+  Comment Comment[] @relation("Comment_User")
 }
 
 model Teacher {
@@ -39,11 +39,10 @@ model Teacher {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  user                  User                    @relation(fields: [user_id], references: [id])
-  ClassInviteForTeacher ClassInviteForTeacher[]
-
-  ClassTeacher ClassTeacher[]
-  GradeReview  GradeReview[]
+  user                  User                    @relation("User_Teacher", fields: [user_id], references: [id])
+  ClassInviteForTeacher ClassInviteForTeacher[] @relation("ClassInviteForTeacher_Teacher")
+  ClassTeacher          ClassTeacher[]          @relation("ClassTeacher_Teacher")
+  GradeReview           GradeReview[]           @relation("GradeReview_Teacher")
 }
 
 model Student {
@@ -52,12 +51,11 @@ model Student {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  user User @relation(fields: [user_id], references: [id])
-
-  ClassMember           ClassMember[]
-  ClassInviteForStudent ClassInviteForStudent[]
-  GradeReview           GradeReview[]
-  StudentGrade          StudentGrade[]
+  user                  User                    @relation("User_Student", fields: [user_id], references: [id])
+  ClassMember           ClassMember[]           @relation("ClassTeacher_Student")
+  ClassInviteForStudent ClassInviteForStudent[] @relation("ClassInviteForStudent_Student")
+  GradeReview           GradeReview[]           @relation("GradeReview_Student")
+  StudentGrade          StudentGrade[]          @relation("StudentGrade_Student")
 }
 
 model Admin {
@@ -66,7 +64,7 @@ model Admin {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
-  User User @relation(fields: [user_id], references: [id])
+  User User @relation("User_Admin", fields: [user_id], references: [id])
 }
 
 model Class {
@@ -77,20 +75,22 @@ model Class {
   invite_code String @unique
   invite_link String @unique
 
-  ClassTeacher     ClassTeacher[]
-  ClassMember      ClassMember[]
-  GradeComposition GradeComposition[]
+  status      String  @default("active")
+  description String?
 
-  ClassInviteForTeacher ClassInviteForTeacher[]
-  ClassInviteForStudent ClassInviteForStudent[]
+  ClassTeacher          ClassTeacher[]          @relation("ClassTeacher_Class")
+  ClassMember           ClassMember[]           @relation("ClassTeacher_Class")
+  GradeComposition      GradeComposition[]      @relation("GradeComposition_Class")
+  ClassInviteForTeacher ClassInviteForTeacher[] @relation("ClassInviteForTeacher_Class")
+  ClassInviteForStudent ClassInviteForStudent[] @relation("ClassInviteForStudent_Class")
 }
 
 model ClassTeacher {
   teacher_id Int
   class_id   Int
 
-  teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
-  class   Class?   @relation(fields: [class_id], references: [class_id])
+  teacher Teacher? @relation("ClassTeacher_Teacher", fields: [teacher_id], references: [teacher_id])
+  class   Class?   @relation("ClassTeacher_Class", fields: [class_id], references: [class_id])
 
   @@unique([teacher_id, class_id])
 }
@@ -99,8 +99,8 @@ model ClassMember {
   student_id Int
   class_id   Int
 
-  student Student? @relation(fields: [student_id], references: [student_id])
-  class   Class?   @relation(fields: [class_id], references: [class_id])
+  student Student? @relation("ClassTeacher_Student", fields: [student_id], references: [student_id])
+  class   Class?   @relation("ClassTeacher_Class", fields: [class_id], references: [class_id])
 
   @@unique([student_id, class_id])
 }
@@ -110,8 +110,8 @@ model ClassInviteForTeacher {
   class_id     Int
   invited_time DateTime @default(now())
 
-  teacher Teacher? @relation(fields: [teacher_id], references: [teacher_id])
-  class   Class?   @relation(fields: [class_id], references: [class_id])
+  teacher Teacher? @relation("ClassInviteForTeacher_Teacher", fields: [teacher_id], references: [teacher_id])
+  class   Class?   @relation("ClassInviteForTeacher_Class", fields: [class_id], references: [class_id])
 
   @@unique([class_id, teacher_id])
 }
@@ -121,8 +121,8 @@ model ClassInviteForStudent {
   class_id     Int
   invited_time DateTime @default(now())
 
-  student Student? @relation(fields: [student_id], references: [student_id])
-  class   Class?   @relation(fields: [class_id], references: [class_id])
+  student Student? @relation("ClassInviteForStudent_Student", fields: [student_id], references: [student_id])
+  class   Class?   @relation("ClassInviteForStudent_Class", fields: [class_id], references: [class_id])
 
   @@unique([student_id, class_id])
 }
@@ -138,11 +138,10 @@ model GradeComposition {
   Rank        Int
   IsFinalized Boolean
 
-  class Class? @relation(fields: [class_id], references: [class_id])
+  class        Class?         @relation("GradeComposition_Class", fields: [class_id], references: [class_id])
+  StudentGrade StudentGrade[] @relation("StudentGrade_GradeComposition")
 
-  StudentGrade StudentGrade[]
-
-  @@index([class_id])
+  // @@index([class_id])
 }
 
 model StudentGrade {
@@ -153,13 +152,12 @@ model StudentGrade {
   updated_at           DateTime @updatedAt()
   grade                Float
 
-  student          Student?          @relation(fields: [student_id], references: [student_id])
-  gradeComposition GradeComposition? @relation(fields: [grade_composition_id], references: [grade_composition_id])
+  student          Student?          @relation("StudentGrade_Student", fields: [student_id], references: [student_id])
+  gradeComposition GradeComposition? @relation("StudentGrade_GradeComposition", fields: [grade_composition_id], references: [grade_composition_id])
+  GradeReview      GradeReview?      @relation("GradeReview_StudentGrade")
 
-  GradeReview GradeReview?
-
-  @@index([student_id])
-  @@index([grade_composition_id])
+  // @@index([student_id])
+  // @@index([grade_composition_id])
 }
 
 model GradeReview {
@@ -175,15 +173,14 @@ model GradeReview {
   final_grade    Int
   explanation    String
 
-  student      Student?      @relation(fields: [student_id], references: [student_id])
-  teacher      Teacher?      @relation(fields: [teacher_id], references: [teacher_id])
-  studentGrade StudentGrade? @relation(fields: [student_grade_id], references: [student_grade_id])
+  student      Student?      @relation("GradeReview_Student", fields: [student_id], references: [student_id])
+  teacher      Teacher?      @relation("GradeReview_Teacher", fields: [teacher_id], references: [teacher_id])
+  studentGrade StudentGrade? @relation("GradeReview_StudentGrade", fields: [student_grade_id], references: [student_grade_id])
+  Comment      Comment[]     @relation("Comment_GradeReview")
 
-  Comment Comment[]
-
-  @@index([student_id])
-  @@index([teacher_id])
-  @@index([student_grade_id])
+  // @@index([student_id])
+  // @@index([teacher_id])
+  // @@index([student_grade_id])
 }
 
 model Comment {
@@ -194,9 +191,9 @@ model Comment {
   updated_at      DateTime @updatedAt()
   comment         String
 
-  user        User        @relation(fields: [user_id], references: [id])
-  gradeReview GradeReview @relation(fields: [grade_review_id], references: [grade_review_id])
+  user        User        @relation("Comment_User", fields: [user_id], references: [id])
+  gradeReview GradeReview @relation("Comment_GradeReview", fields: [grade_review_id], references: [grade_review_id])
 
-  @@index([user_id])
-  @@index([grade_review_id])
+  // @@index([user_id])
+  // @@index([grade_review_id])
 }
