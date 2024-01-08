@@ -13,12 +13,12 @@ export class CreateTeacherDto {
   teacher_id: number;
 
   @ApiProperty()
-  @IsDate({ message: 'Invalid created_at date format' })
+  // @IsDate({ message: 'Invalid created_at date format' })
   @IsNotEmpty({ message: 'created_at is required' })
   created_at: Date;
 
   @ApiProperty()
-  @IsDate({ message: 'Invalid updated_at date format' })
+  // @IsDate({ message: 'Invalid updated_at date format' })
   @IsNotEmpty({ message: 'updated_at is required' })
   updated_at: Date;
 }

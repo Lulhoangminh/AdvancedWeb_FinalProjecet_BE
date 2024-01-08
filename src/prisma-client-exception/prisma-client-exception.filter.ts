@@ -19,6 +19,15 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
           message: message,
         });
         break;
+
+      case 'P2003':
+        const status2 = HttpStatus.CONFLICT;
+        response.status(status2).json({
+          statusCode: status2,
+          message: message,
+        });
+        break;
+
       // TODO catch other error codes (e.g. 'P2000' or 'P2025')
       default:
         // default 500 error code
