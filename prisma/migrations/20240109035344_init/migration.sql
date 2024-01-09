@@ -54,6 +54,7 @@ CREATE TABLE "Class" (
     "updated_at" TIMESTAMP(3) NOT NULL,
     "invite_code" TEXT NOT NULL,
     "invite_link" TEXT NOT NULL,
+    "class_name" TEXT,
     "status" TEXT NOT NULL DEFAULT 'active',
     "description" TEXT,
 

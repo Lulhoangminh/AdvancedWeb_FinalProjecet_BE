@@ -75,6 +75,7 @@ model Class {
   invite_code String @unique
   invite_link String @unique
 
+  class_name  String?
   status      String  @default("active")
   description String?
 

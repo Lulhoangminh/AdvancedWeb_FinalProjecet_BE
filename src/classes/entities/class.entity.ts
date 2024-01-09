@@ -13,6 +13,8 @@ export class ClassEntity implements Class {
   @ApiProperty()
   invite_link: string;
   @ApiProperty()
+  class_name: string;
+  @ApiProperty()
   status: string;
   @ApiProperty()
   description: string;

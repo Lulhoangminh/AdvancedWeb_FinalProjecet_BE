@@ -26,4 +26,19 @@ export default class CreateClassDto {
   @IsString({ message: 'Invite link must be a string' })
   @IsNotEmpty({ message: 'Invite link is required' })
   invite_link: string;
+
+  @ApiProperty()
+  @IsString({ message: 'Class name must be a string' })
+  @IsNotEmpty({ message: 'Class name is required' })
+  class_name: string;
+
+  @ApiProperty()
+  @IsString({ message: 'Status must be a string' })
+  @IsNotEmpty({ message: 'Status is required' })
+  status: string;
+
+  @ApiProperty()
+  @IsString({ message: 'Description must be a string' })
+  @IsNotEmpty({ message: 'Description is required' })
+  description: string;
 }
