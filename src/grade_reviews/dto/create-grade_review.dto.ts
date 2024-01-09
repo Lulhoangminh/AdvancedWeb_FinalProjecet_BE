@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsDate, IsNumber, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsDate, IsNumber, IsString, IsISO8601 } from 'class-validator';
 import { GradeReview } from '@prisma/client';
 
 export class CreateGradeReviewDto implements GradeReview {
@@ -24,12 +24,12 @@ export class CreateGradeReviewDto implements GradeReview {
   teacher_id: number;
 
   @ApiProperty()
-  @IsDate({ message: 'created_at must be a valid date' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })
   @IsNotEmpty({ message: 'created_at is required' })
   created_at: Date;
 
   @ApiProperty()
-  @IsDate({ message: 'updated_at must be a valid date' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for update_at' })
   @IsNotEmpty({ message: 'updated_at is required' })
   updated_at: Date;
 

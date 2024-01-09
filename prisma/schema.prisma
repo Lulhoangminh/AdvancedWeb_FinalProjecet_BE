@@ -137,7 +137,7 @@ model GradeComposition {
   name        String
   Percentage  Int
   Rank        Int
-  IsFinalized Boolean
+  IsFinalized Boolean @default(false)
 
   class        Class?         @relation("GradeComposition_Class", fields: [class_id], references: [class_id])
   StudentGrade StudentGrade[] @relation("StudentGrade_GradeComposition")

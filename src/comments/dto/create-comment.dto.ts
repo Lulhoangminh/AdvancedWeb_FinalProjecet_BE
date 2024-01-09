@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsDate, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsDate, IsString, IsISO8601 } from 'class-validator';
 import { Comment } from '@prisma/client';
 
 export class CreateCommentDto implements Comment {
@@ -19,12 +19,12 @@ export class CreateCommentDto implements Comment {
   user_id: number;
 
   @ApiProperty()
-  @IsDate({ message: 'created_at must be a valid date' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })
   @IsNotEmpty({ message: 'created_at is required' })
   created_at: Date;
 
   @ApiProperty()
-  @IsDate({ message: 'updated_at must be a valid date' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for updated_at' })
   @IsNotEmpty({ message: 'updated_at is required' })
   updated_at: Date;
 

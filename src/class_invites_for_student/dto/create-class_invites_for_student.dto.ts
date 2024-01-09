@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsDate } from 'class-validator';
+import { IsInt, IsNotEmpty, IsDate, IsISO8601 } from 'class-validator';
 import { ClassInviteForStudent } from '@prisma/client';
 
 export class CreateClassInvitesForStudentDto implements ClassInviteForStudent {
@@ -14,7 +14,7 @@ export class CreateClassInvitesForStudentDto implements ClassInviteForStudent {
   class_id: number;
 
   @ApiProperty()
-  @IsDate({ message: 'invited_time must be a valid date' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for invited_time' })
   @IsNotEmpty({ message: 'invited_time is required' })
   invited_time: Date;
 }

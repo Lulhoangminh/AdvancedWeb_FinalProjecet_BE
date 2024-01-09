@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsNumber, IsDate } from 'class-validator';
+import { IsNotEmpty, IsString, IsNumber, IsDate, IsISO8601 } from 'class-validator';
 
 export default class CreateClassDto {
   @ApiProperty()
@@ -8,12 +8,12 @@ export default class CreateClassDto {
   class_id: number;
 
   @ApiProperty()
-  // @IsDate({ message: 'Invalid date format for created_at' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })
   @IsNotEmpty({ message: 'created_at is required' })
   created_at: Date;
 
   @ApiProperty()
-  // @IsDate({ message: 'Invalid date format for updated_at' })
+  @IsISO8601({ strict: true }, { message: 'Invalid date format for updated_at' })
   @IsNotEmpty({ message: 'updated_at is required' })
   updated_at: Date;
 
