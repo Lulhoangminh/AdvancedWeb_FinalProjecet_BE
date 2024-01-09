@@ -42,9 +42,9 @@ export class ClassTeachersController {
   @ApiQuery({ name: 'class_id', required: false })
   @ApiOkResponse({ type: ClassTeacherEntity })
   async findOne(@Param('teacher_id') teacher_id?: any, @Param('class_id') class_id?: any) {
-    console.log(teacher_id, class_id);
+    // console.log(teacher_id, class_id);
     const class_teacher = await this.classTeachersService.find(teacher_id, class_id);
-    console.log(class_teacher);
+    // console.log(class_teacher);
     if (!class_teacher) {
       throw new NotFoundException(
         `Class teacher with id ${teacher_id} and class id ${class_id} not found`,
@@ -61,7 +61,7 @@ export class ClassTeachersController {
     @Body() updateClassTeacherDto: UpdateClassTeacherDto,
   ) {
     // console.log(teacher_id, class_id, updateClassTeacherDto);
-    return this.classTeachersService.update(+class_id, +teacher_id, updateClassTeacherDto);
+    return this.classTeachersService.update(class_id, teacher_id, updateClassTeacherDto);
   }
 
   @Delete('/remove/teacher_id=:teacher_id&class_id=:class_id')

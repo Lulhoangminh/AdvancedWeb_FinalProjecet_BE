@@ -15,7 +15,7 @@ import { CreateClassInvitesForTeacherDto } from './dto/create-class_invites_for_
 import { UpdateClassInvitesForTeacherDto } from './dto/update-class_invites_for_teacher.dto';
 import { Public } from 'src/common/decorators';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ClassInviteForTeacherEntity } from './entities/class_invites_for_teacher.entity';
 
 @Controller('class-invites-for-teacher')
@@ -37,13 +37,15 @@ export class ClassInvitesForTeacherController {
     return this.classInvitesForTeacherService.findAll();
   }
 
-  @Get(':id')
+  @Get()
+  @ApiQuery({ name: 'teacher_id', required: false })
+  @ApiQuery({ name: 'class_id', required: false })
   @ApiOkResponse({ type: ClassInviteForTeacherEntity })
   async findOne(
-    @Param('class_id', ParseIntPipe) class_id: number,
-    @Param('teacher_id', ParseIntPipe) teacher_id: number,
+    @Param('class_id', ParseIntPipe) class_id?: number,
+    @Param('teacher_id', ParseIntPipe) teacher_id?: number,
   ) {
-    const invite = await this.classInvitesForTeacherService.findOne(class_id, teacher_id);
+    const invite = await this.classInvitesForTeacherService.find(class_id, teacher_id);
 
     if (!invite) {
       throw new NotFoundException(
@@ -54,7 +56,7 @@ export class ClassInvitesForTeacherController {
     return invite;
   }
 
-  @Patch(':id')
+  @Patch('/update/teacher_id=:teacher_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassInviteForTeacherEntity })
   update(
     @Param('class_id', ParseIntPipe) class_id: number,
@@ -68,7 +70,7 @@ export class ClassInvitesForTeacherController {
     );
   }
 
-  @Delete(':id')
+  @Delete('/remove/teacher_id=:teacher_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassInviteForTeacherEntity })
   remove(
     @Param('class_id', ParseIntPipe) class_id: number,

@@ -8,12 +8,12 @@ export default class CreateClassDto {
   class_id: number;
 
   @ApiProperty()
-  @IsDate({ message: 'Invalid date format for created_at' })
+  // @IsDate({ message: 'Invalid date format for created_at' })
   @IsNotEmpty({ message: 'created_at is required' })
   created_at: Date;
 
   @ApiProperty()
-  @IsDate({ message: 'Invalid date format for updated_at' })
+  // @IsDate({ message: 'Invalid date format for updated_at' })
   @IsNotEmpty({ message: 'updated_at is required' })
   updated_at: Date;
 

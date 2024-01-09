@@ -13,7 +13,7 @@ import {
 import { ClassMembersService } from './class_members.service';
 import { CreateClassMemberDto } from './dto/create-class_member.dto';
 import { UpdateClassMemberDto } from './dto/update-class_member.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/common/decorators';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { ClassMemberEntity } from './entities/class_member.entity';
@@ -37,13 +37,15 @@ export class ClassMembersController {
     return this.classMembersService.findAll();
   }
 
-  @Get(':id')
+  @Get()
+  @ApiQuery({ name: 'student_id', required: false })
+  @ApiQuery({ name: 'class_id', required: false })
   @ApiOkResponse({ type: ClassMemberEntity })
   async findOne(
-    @Param('student_id', ParseIntPipe) student_id: number,
-    @Param('class_id', ParseIntPipe) class_id: number,
+    @Param('student_id', ParseIntPipe) student_id?: number,
+    @Param('class_id', ParseIntPipe) class_id?: number,
   ) {
-    const class_member = await this.classMembersService.findOne(class_id, student_id);
+    const class_member = await this.classMembersService.find(class_id, student_id);
 
     if (!class_member) {
       throw new NotFoundException(
@@ -54,7 +56,7 @@ export class ClassMembersController {
     return class_member;
   }
 
-  @Patch(':id')
+  @Patch('/update/student_id=:student_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassMemberEntity })
   update(
     @Param('student_id', ParseIntPipe) student_id: number,
@@ -64,7 +66,7 @@ export class ClassMembersController {
     return this.classMembersService.update(class_id, student_id, updateClassMemberDto);
   }
 
-  @Delete(':id')
+  @Delete('/remove/student_id=:student_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassMemberEntity })
   remove(
     @Param('student_id', ParseIntPipe) student_id: number,

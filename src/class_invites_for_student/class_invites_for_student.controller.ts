@@ -14,7 +14,7 @@ import { ClassInvitesForStudentService } from './class_invites_for_student.servi
 import { CreateClassInvitesForStudentDto } from './dto/create-class_invites_for_student.dto';
 import { UpdateClassInvitesForStudentDto } from './dto/update-class_invites_for_student.dto';
 import { Public } from 'src/common/decorators';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { ClassInvitesForStudentEntity } from './entities/class_invites_for_student.entity';
 
@@ -37,13 +37,15 @@ export class ClassInvitesForStudentController {
     return this.classInvitesForStudentService.findAll();
   }
 
-  @Get(':id')
+  @Get()
+  @ApiQuery({ name: 'student_id', required: false })
+  @ApiQuery({ name: 'class_id', required: false })
   @ApiOkResponse({ type: ClassInvitesForStudentEntity })
   async findOne(
     @Param('class_id', ParseIntPipe) class_id: number,
     @Param('student_id', ParseIntPipe) student_id: number,
   ) {
-    const invite = await this.classInvitesForStudentService.findOne(class_id, student_id);
+    const invite = await this.classInvitesForStudentService.find(class_id, student_id);
 
     if (!invite) {
       throw new NotFoundException(
@@ -54,7 +56,7 @@ export class ClassInvitesForStudentController {
     return invite;
   }
 
-  @Patch(':id')
+  @Patch('/update/student_id=:student_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassInvitesForStudentEntity })
   update(
     @Param('class_id', ParseIntPipe) class_id: number,
@@ -68,7 +70,7 @@ export class ClassInvitesForStudentController {
     );
   }
 
-  @Delete(':id')
+  @Delete('/remove/student_id=:student_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassInvitesForStudentEntity })
   remove(
     @Param('class_id', ParseIntPipe) class_id: number,

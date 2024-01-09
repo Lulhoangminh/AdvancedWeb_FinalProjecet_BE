@@ -1,19 +1,21 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" SERIAL NOT NULL,
+    "createdAt" DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATE NOT NULL,
+    "email" TEXT NOT NULL,
+    "fullname" TEXT,
+    "dob" DATE,
+    "hash" TEXT,
+    "hashedRt" TEXT,
+    "Type" TEXT,
+    "confirmationCode" TEXT,
+    "isEmailConfirmed" BOOLEAN NOT NULL DEFAULT false,
+    "IsBanned" BOOLEAN NOT NULL DEFAULT false,
+    "IsLocked" BOOLEAN NOT NULL DEFAULT false,
 
-  - Added the required column `Type` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `dob` to the `User` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "IsBanned" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "IsLocked" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "Type" TEXT NOT NULL,
-ADD COLUMN     "dob" DATE NOT NULL,
-ADD COLUMN     "fullname" TEXT,
-ADD COLUMN     "isEmailConfirmed" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "updatedAt" TIMESTAMP(3) NOT NULL;
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Teacher" (
@@ -52,6 +54,8 @@ CREATE TABLE "Class" (
     "updated_at" TIMESTAMP(3) NOT NULL,
     "invite_code" TEXT NOT NULL,
     "invite_link" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'active',
+    "description" TEXT,
 
     CONSTRAINT "Class_pkey" PRIMARY KEY ("class_id")
 );
@@ -103,7 +107,7 @@ CREATE TABLE "StudentGrade" (
     "grade_composition_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
-    "grade" INTEGER NOT NULL,
+    "grade" DOUBLE PRECISION NOT NULL,
 
     CONSTRAINT "StudentGrade_pkey" PRIMARY KEY ("student_grade_id")
 );
@@ -137,6 +141,12 @@ CREATE TABLE "Comment" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_confirmationCode_key" ON "User"("confirmationCode");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Teacher_user_id_key" ON "Teacher"("user_id");
 
 -- CreateIndex
@@ -152,52 +162,16 @@ CREATE UNIQUE INDEX "Class_invite_code_key" ON "Class"("invite_code");
 CREATE UNIQUE INDEX "Class_invite_link_key" ON "Class"("invite_link");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ClassTeacher_teacher_id_key" ON "ClassTeacher"("teacher_id");
+CREATE UNIQUE INDEX "ClassTeacher_teacher_id_class_id_key" ON "ClassTeacher"("teacher_id", "class_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ClassTeacher_class_id_key" ON "ClassTeacher"("class_id");
+CREATE UNIQUE INDEX "ClassMember_student_id_class_id_key" ON "ClassMember"("student_id", "class_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ClassMember_student_id_key" ON "ClassMember"("student_id");
+CREATE UNIQUE INDEX "ClassInviteForTeacher_class_id_teacher_id_key" ON "ClassInviteForTeacher"("class_id", "teacher_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ClassMember_class_id_key" ON "ClassMember"("class_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ClassInviteForTeacher_teacher_id_key" ON "ClassInviteForTeacher"("teacher_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ClassInviteForTeacher_class_id_key" ON "ClassInviteForTeacher"("class_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ClassInviteForStudent_student_id_key" ON "ClassInviteForStudent"("student_id");
-
--- CreateIndex
-CREATE UNIQUE INDEX "ClassInviteForStudent_class_id_key" ON "ClassInviteForStudent"("class_id");
-
--- CreateIndex
-CREATE INDEX "GradeComposition_class_id_idx" ON "GradeComposition"("class_id");
-
--- CreateIndex
-CREATE INDEX "StudentGrade_student_id_idx" ON "StudentGrade"("student_id");
-
--- CreateIndex
-CREATE INDEX "StudentGrade_grade_composition_id_idx" ON "StudentGrade"("grade_composition_id");
+CREATE UNIQUE INDEX "ClassInviteForStudent_student_id_class_id_key" ON "ClassInviteForStudent"("student_id", "class_id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "GradeReview_student_grade_id_key" ON "GradeReview"("student_grade_id");
-
--- CreateIndex
-CREATE INDEX "GradeReview_student_id_idx" ON "GradeReview"("student_id");
-
--- CreateIndex
-CREATE INDEX "GradeReview_teacher_id_idx" ON "GradeReview"("teacher_id");
-
--- CreateIndex
-CREATE INDEX "GradeReview_student_grade_id_idx" ON "GradeReview"("student_grade_id");
-
--- CreateIndex
-CREATE INDEX "Comment_user_id_idx" ON "Comment"("user_id");
-
--- CreateIndex
-CREATE INDEX "Comment_grade_review_id_idx" ON "Comment"("grade_review_id");

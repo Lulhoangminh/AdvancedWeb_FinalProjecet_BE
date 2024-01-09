@@ -108,7 +108,7 @@ export class AuthService {
         fullname: details.displayName,
       },
     });
-    return;
+    return details;
   }
 
   // async findUserByConfirmationCode(code: string){
