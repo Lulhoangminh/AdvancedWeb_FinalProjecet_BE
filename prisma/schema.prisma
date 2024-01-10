@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now()) @db.Date
   updatedAt DateTime @updatedAt() @db.Date
 
@@ -34,8 +34,8 @@ model User {
 }
 
 model Teacher {
-  user_id    Int      @unique
-  teacher_id Int      @id @default(autoincrement())
+  user_id    String   @unique
+  teacher_id String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
@@ -46,8 +46,8 @@ model Teacher {
 }
 
 model Student {
-  user_id    Int      @unique
-  student_id Int      @id @default(autoincrement())
+  user_id    String   @unique
+  student_id String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
@@ -59,8 +59,8 @@ model Student {
 }
 
 model Admin {
-  user_id    Int      @unique
-  admin_id   Int      @id @default(autoincrement())
+  user_id    String   @unique
+  admin_id   String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
@@ -68,7 +68,7 @@ model Admin {
 }
 
 model Class {
-  class_id   Int      @id @default(autoincrement())
+  class_id   String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
@@ -87,51 +87,55 @@ model Class {
 }
 
 model ClassTeacher {
-  teacher_id Int
-  class_id   Int
+  teacher_id String
+  class_id   String
   isOwner    Boolean @default(false)
 
   teacher Teacher? @relation("ClassTeacher_Teacher", fields: [teacher_id], references: [teacher_id])
   class   Class?   @relation("ClassTeacher_Class", fields: [class_id], references: [class_id])
 
   @@unique([teacher_id, class_id])
+  @@index([class_id])
 }
 
 model ClassMember {
-  student_id Int
-  class_id   Int
+  student_id String
+  class_id   String
 
   student Student? @relation("ClassTeacher_Student", fields: [student_id], references: [student_id])
   class   Class?   @relation("ClassTeacher_Class", fields: [class_id], references: [class_id])
 
   @@unique([student_id, class_id])
+  @@index([class_id])
 }
 
 model ClassInviteForTeacher {
-  teacher_id   Int
-  class_id     Int
+  teacher_id   String
+  class_id     String
   invited_time DateTime @default(now())
 
   teacher Teacher? @relation("ClassInviteForTeacher_Teacher", fields: [teacher_id], references: [teacher_id])
   class   Class?   @relation("ClassInviteForTeacher_Class", fields: [class_id], references: [class_id])
 
   @@unique([class_id, teacher_id])
+  @@index([teacher_id])
 }
 
 model ClassInviteForStudent {
-  student_id   Int
-  class_id     Int
+  student_id   String
+  class_id     String
   invited_time DateTime @default(now())
 
   student Student? @relation("ClassInviteForStudent_Student", fields: [student_id], references: [student_id])
   class   Class?   @relation("ClassInviteForStudent_Class", fields: [class_id], references: [class_id])
 
   @@unique([student_id, class_id])
+  @@index([class_id])
 }
 
 model GradeComposition {
-  grade_composition_id Int      @id @default(autoincrement())
-  class_id             Int?
+  grade_composition_id String   @id @default(uuid())
+  class_id             String?
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt()
 
@@ -144,12 +148,14 @@ model GradeComposition {
   StudentGrade StudentGrade[] @relation("StudentGrade_GradeComposition")
 
   // @@index([class_id])
+
+  @@index([class_id])
 }
 
 model StudentGrade {
-  student_grade_id     Int      @id @default(autoincrement())
-  student_id           Int
-  grade_composition_id Int
+  student_grade_id     String   @id @default(uuid())
+  student_id           String
+  grade_composition_id String
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt()
   grade                Float
@@ -160,13 +166,16 @@ model StudentGrade {
 
   // @@index([student_id])
   // @@index([grade_composition_id])
+
+  @@index([student_id])
+  @@index([grade_composition_id])
 }
 
 model GradeReview {
-  grade_review_id  Int      @id @default(autoincrement())
-  student_grade_id Int      @unique
-  student_id       Int
-  teacher_id       Int
+  grade_review_id  String   @id @default(uuid())
+  student_grade_id String   @unique
+  student_id       String
+  teacher_id       String
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt()
 
@@ -183,12 +192,15 @@ model GradeReview {
   // @@index([student_id])
   // @@index([teacher_id])
   // @@index([student_grade_id])
+
+  @@index([student_id])
+  @@index([teacher_id])
 }
 
 model Comment {
-  comment_id      Int      @id @default(autoincrement())
-  grade_review_id Int
-  user_id         Int
+  comment_id      String   @id @default(uuid())
+  grade_review_id String
+  user_id         String
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt()
   comment         String
@@ -198,4 +210,7 @@ model Comment {
 
   // @@index([user_id])
   // @@index([grade_review_id])
+
+  @@index([user_id])
+  @@index([grade_review_id])
 }

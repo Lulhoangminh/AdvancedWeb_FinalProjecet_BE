@@ -5,12 +5,12 @@ export class CreateAdminDto {
   @ApiProperty()
   @IsInt({ message: 'User ID must be an integer' })
   @IsNotEmpty({ message: 'User ID is required' })
-  user_id: number;
+  user_id: string;
 
   @ApiProperty()
   @IsInt({ message: 'Admin ID must be an integer' })
   @IsNotEmpty({ message: 'Admin ID is required' })
-  admin_id: number;
+  admin_id: string;
 
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })

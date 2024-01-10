@@ -18,6 +18,7 @@ export class CreateUserDto {
   @IsString()
   // @IsNotEmpty({ message: 'confirmationcode is required' })
   confirmationCode: string;
+
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for createdAt' })
   @IsNotEmpty({ message: 'createdAt is required' })
@@ -29,7 +30,7 @@ export class CreateUserDto {
   updatedAt: Date;
 
   @ApiProperty()
-  @IsEmail({}, { message: 'Invalid email format' })
+  // @IsEmail({}, { message: 'Invalid email format' })
   email: string;
 
   @ApiProperty()
@@ -54,7 +55,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsString()
-  @IsIn(['admin', 'student', 'teacher'], { message: 'Invalid user type' })
+  // @IsIn(['admin', 'student', 'teacher'], { message: 'Invalid user type' })
   Type: string;
 
   @ApiProperty()

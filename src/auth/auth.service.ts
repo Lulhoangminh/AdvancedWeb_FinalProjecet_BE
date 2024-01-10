@@ -16,17 +16,20 @@ export class AuthService {
 
   async signupLocal(dto: AuthSignUpDto): Promise<Tokens> {
     const hash = await this.hashData(dto.password);
-    const newUser = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        hash,
-        Type: dto.Type,
-      },
-    });
 
-    const tokens = await this.getTokens(newUser.id, newUser.email);
-    await this.updateRtHash(newUser.id, tokens.refresh_token);
-    return tokens;
+    console.log(
+      await this.prisma.user.create({
+        data: {
+          email: dto.email,
+          hash,
+          Type: dto.Type,
+        },
+      }),
+    );
+
+    // const tokens = await this.getTokens(newUser.id, newUser.email);
+    // await this.updateRtHash(newUser.id, tokens.refresh_token);
+    return null;
   }
 
   async signinLocal(dto: AuthSignInDto): Promise<Tokens> {
