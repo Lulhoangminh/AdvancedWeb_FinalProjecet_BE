@@ -1,19 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { ClassInviteForStudent } from '@prisma/client';
+import { IsNotEmpty, IsString, IsEmail } from 'class-validator';
 
-export class AuthSignUpDto {
-  @ApiProperty()
+export class AuthSignUpEntity {
   @IsNotEmpty()
   @IsString()
   @IsEmail()
   email: string;
 
-  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   password: string;
 
-  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   Type: string;

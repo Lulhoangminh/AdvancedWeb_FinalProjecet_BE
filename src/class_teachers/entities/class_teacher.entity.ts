@@ -7,4 +7,7 @@ export class ClassTeacherEntity implements ClassTeacher {
 
   @ApiProperty()
   class_id: number;
+
+  @ApiProperty()
+  isOwner: boolean;
 }

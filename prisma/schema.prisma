@@ -89,6 +89,7 @@ model Class {
 model ClassTeacher {
   teacher_id Int
   class_id   Int
+  isOwner    Boolean @default(false)
 
   teacher Teacher? @relation("ClassTeacher_Teacher", fields: [teacher_id], references: [teacher_id])
   class   Class?   @relation("ClassTeacher_Class", fields: [class_id], references: [class_id])

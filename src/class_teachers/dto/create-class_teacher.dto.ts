@@ -11,4 +11,8 @@ export class CreateClassTeacherDto {
   @IsInt({ message: 'Class ID must be an integer' })
   @IsNotEmpty({ message: 'Class ID is required' })
   class_id: number;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'isOwner is required' })
+  isOwner: boolean;
 }

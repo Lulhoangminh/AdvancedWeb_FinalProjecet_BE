@@ -1,13 +1,15 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, AuthSignInDto, AuthSignUpDto } from './dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { Tokens } from './types';
 import { AtGuard, RtGuard } from 'src/common/guards';
 import { GetCurrentUser, GetCurrentUserId, Public } from 'src/common/decorators';
 import { UsersService } from 'src/users/users.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GoogleAuthGuard } from 'src/common/guards/google.guard';
+import { AuthSignUpEntity } from './entity/AuthSignUp.Entity';
+import { AuthSignInEntity } from './entity/AuthSignIn.Entity';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -35,6 +37,7 @@ export class AuthController {
 
   @Public()
   @Post('signup')
+  @ApiOkResponse({ type: AuthSignUpEntity })
   @HttpCode(HttpStatus.CREATED)
   signupLocal(@Body() signUpDto: AuthSignUpDto): Promise<Tokens> {
     return this.AuthService.signupLocal(signUpDto);
@@ -42,6 +45,7 @@ export class AuthController {
 
   @Public()
   @Post('signin')
+  @ApiOkResponse({ type: AuthSignInEntity })
   @HttpCode(HttpStatus.OK)
   signinLocal(@Body() signInDto: AuthSignInDto): Promise<Tokens> {
     return this.AuthService.signinLocal(signInDto);

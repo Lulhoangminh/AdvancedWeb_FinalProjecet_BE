@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from '@prisma/client';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -13,6 +14,10 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
+  @ApiProperty()
+  @IsString()
+  // @IsNotEmpty({ message: 'confirmationcode is required' })
+  confirmationCode: string;
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for createdAt' })
   @IsNotEmpty({ message: 'createdAt is required' })
@@ -29,22 +34,22 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   fullname: string;
 
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for dob' })
-  @IsNotEmpty({ message: 'dob is required' })
+  // @IsNotEmpty({ message: 'dob is required' })
   dob: Date;
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   hash: string;
 
   @ApiProperty()
   @IsString()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   hashedRt: string;
 
   @ApiProperty()

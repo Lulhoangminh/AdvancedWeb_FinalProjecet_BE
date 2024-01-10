@@ -5,7 +5,7 @@ import { AtStrategy, RtStrategy } from './strategies';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
 import { GoogleStrategy } from './strategies/google.strategy';
-import { SessionSerializer } from './utils/Serializer';
+import { SessionSerializer } from 'src/auth/types/utils/Serializer';
 
 @Module({
   imports: [JwtModule.register({}), UsersModule],

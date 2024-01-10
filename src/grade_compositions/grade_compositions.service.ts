@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateGradeCompositionDto } from './dto/create-grade_composition.dto';
 import { UpdateGradeCompositionDto } from './dto/update-grade_composition.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateGradeCompositionIsFinalized } from './dto/update-grade_composition-isfinalized.dto';
 
 @Injectable()
 export class GradeCompositionsService {
@@ -44,14 +45,15 @@ export class GradeCompositionsService {
     });
   }
 
-  finalizeGradeComposition(id: number, is_finalized: boolean) {
+  finalizeGradeComposition(
+    id: number,
+    updateGradeCompositionIsFinalized: UpdateGradeCompositionIsFinalized,
+  ) {
     return this.prisma.gradeComposition.update({
       where: {
         grade_composition_id: id,
       },
-      data: {
-        IsFinalized: is_finalized,
-      },
+      data: updateGradeCompositionIsFinalized,
     });
   }
 }

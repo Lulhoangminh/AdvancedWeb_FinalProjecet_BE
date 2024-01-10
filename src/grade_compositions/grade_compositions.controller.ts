@@ -14,9 +14,10 @@ import { GradeCompositionsService } from './grade_compositions.service';
 import { CreateGradeCompositionDto } from './dto/create-grade_composition.dto';
 import { UpdateGradeCompositionDto } from './dto/update-grade_composition.dto';
 import { Public } from 'src/common/decorators';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 import { GradeCompositionEntity } from './entities/grade_composition.entity';
+import { UpdateGradeCompositionIsFinalized } from './dto/update-grade_composition-isfinalized.dto';
 
 @Controller('grade-compositions')
 @Public()
@@ -39,7 +40,7 @@ export class GradeCompositionsController {
 
   @Get(':id')
   @ApiOkResponse({ type: GradeCompositionEntity })
-  async findOne(@Param('grade_composition_id', ParseIntPipe) grade_composition_id: number) {
+  async findOne(@Param('id', ParseIntPipe) grade_composition_id: number) {
     const grade_composition = await this.gradeCompositionsService.findOne(grade_composition_id);
 
     if (!grade_composition) {
@@ -52,7 +53,7 @@ export class GradeCompositionsController {
   @Patch(':id')
   @ApiOkResponse({ type: GradeCompositionEntity })
   update(
-    @Param('grade_composition_id', ParseIntPipe) grade_composition_id: number,
+    @Param('id', ParseIntPipe) grade_composition_id: number,
     @Body() updateGradeCompositionDto: UpdateGradeCompositionDto,
   ) {
     return this.gradeCompositionsService.update(grade_composition_id, updateGradeCompositionDto);
@@ -60,20 +61,22 @@ export class GradeCompositionsController {
 
   @Delete(':id')
   @ApiOkResponse({ type: GradeCompositionEntity })
-  remove(@Param('grade_composition_id', ParseIntPipe) grade_composition_id: number) {
+  remove(@Param('id', ParseIntPipe) grade_composition_id: number) {
     return this.gradeCompositionsService.remove(grade_composition_id);
   }
 
-  @Patch(':id/finalize')
+  @Patch(':id/mark')
   @ApiOkResponse({ type: GradeCompositionEntity })
   finalizeGradeComposition(
-    @Param('grade_composition_id') id: string,
-    // @Param('is_finalized') is_finalized: boolean,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateGradeCompositionIsFinalized: UpdateGradeCompositionIsFinalized,
   ) {
-    console.log(id);
-    // return this.gradeCompositionsService.finalizeGradeComposition(
-    //   grade_composition_id,
-    //   is_finalized,
-    // );
+    if (!this.gradeCompositionsService.findOne(id)) {
+      throw new NotFoundException(`Grade Composition #${id} not found`);
+    }
+    return this.gradeCompositionsService.finalizeGradeComposition(
+      id,
+      updateGradeCompositionIsFinalized,
+    );
   }
 }
