@@ -17,7 +17,7 @@ export class TeachersService {
     return this.prisma.teacher.findMany({ where: {} });
   }
 
-  async findOne(teacher_id: number) {
+  async findOne(teacher_id: string) {
     const teacher = this.prisma.teacher.findUnique({
       where: {
         teacher_id,
@@ -26,7 +26,7 @@ export class TeachersService {
     return teacher;
   }
 
-  update(id: number, updateTeacherDto: UpdateTeacherDto) {
+  update(id: string, updateTeacherDto: UpdateTeacherDto) {
     return this.prisma.teacher.update({
       where: {
         user_id: id,
@@ -35,7 +35,7 @@ export class TeachersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.teacher.delete({
       where: {
         user_id: id,

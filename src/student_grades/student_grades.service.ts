@@ -19,7 +19,7 @@ export class StudentGradesService {
     });
   }
 
-  findOne(student_grade_id: number) {
+  findOne(student_grade_id: string) {
     return this.prisma.studentGrade.findUnique({
       where: {
         student_grade_id,
@@ -27,7 +27,7 @@ export class StudentGradesService {
     });
   }
 
-  update(student_grade_id: number, updateStudentGradeDto: UpdateStudentGradeDto) {
+  update(student_grade_id: string, updateStudentGradeDto: UpdateStudentGradeDto) {
     return this.prisma.studentGrade.update({
       where: {
         student_grade_id,
@@ -36,7 +36,7 @@ export class StudentGradesService {
     });
   }
 
-  remove(student_grade_id: number) {
+  remove(student_grade_id: string) {
     return this.prisma.studentGrade.delete({
       where: {
         student_grade_id,

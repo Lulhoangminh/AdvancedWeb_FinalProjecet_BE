@@ -39,8 +39,8 @@ export class StudentsController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: StudentEntity })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    const student = await this.studentsService.findOne(+id);
+  async findOne(@Param('id', ParseIntPipe) id: string) {
+    const student = await this.studentsService.findOne(id);
 
     if (!student) {
       throw new NotFoundException(`Student #${id} not found`);
@@ -50,13 +50,13 @@ export class StudentsController {
 
   @Patch(':id')
   @ApiCreatedResponse({ type: StudentEntity })
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateStudentDto: UpdateStudentDto) {
-    return this.studentsService.update(+id, updateStudentDto);
+  update(@Param('id', ParseIntPipe) id: string, @Body() updateStudentDto: UpdateStudentDto) {
+    return this.studentsService.update(id, updateStudentDto);
   }
 
   @Delete(':id')
   @ApiCreatedResponse({ type: StudentEntity })
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.studentsService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: string) {
+    return this.studentsService.remove(id);
   }
 }

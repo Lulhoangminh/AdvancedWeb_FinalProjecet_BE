@@ -18,7 +18,7 @@ export class UsersService {
     return this.prisma.user.findMany({ where: {} });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.user.findUnique({
       where: { id: id },
     });
@@ -48,14 +48,14 @@ export class UsersService {
   //   });
   // }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
+  update(id: string, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
   }
 
-  updateEmail(id: number, email: string) {
+  updateEmail(id: string, email: string) {
     return this.prisma.user.update({
       where: { id },
       data: {
@@ -64,7 +64,7 @@ export class UsersService {
     });
   }
 
-  async updatePassword(id: number, new_password: string) {
+  async updatePassword(id: string, new_password: string) {
     const hash = await this.hashData(new_password);
     return this.prisma.user.update({
       where: { id },
@@ -74,7 +74,7 @@ export class UsersService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.user.delete({
       where: { id },
     });

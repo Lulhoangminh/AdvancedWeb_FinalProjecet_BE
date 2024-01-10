@@ -19,7 +19,7 @@ export class ClassesService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.class.findUnique({
       where: {
         class_id: id,
@@ -27,7 +27,7 @@ export class ClassesService {
     });
   }
 
-  update(id: number, updateClassDto: UpdateClassDto) {
+  update(id: string, updateClassDto: UpdateClassDto) {
     return this.prisma.class.update({
       where: {
         class_id: id,
@@ -36,7 +36,7 @@ export class ClassesService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.class.delete({
       where: {
         class_id: id,
@@ -44,7 +44,7 @@ export class ClassesService {
     });
   }
 
-  async getClassesByUserId(userId: number) {
+  async getClassesByUserId(userId: string) {
     return this.prisma.classMember.findMany({
       where: {
         student_id: userId,

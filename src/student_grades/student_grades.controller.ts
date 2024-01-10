@@ -39,7 +39,7 @@ export class StudentGradesController {
 
   @Get(':id')
   @ApiOkResponse({ type: StudentGradeEntity })
-  async findOne(@Param('id', ParseIntPipe) student_grade_id: number) {
+  async findOne(@Param('id', ParseIntPipe) student_grade_id: string) {
     const student_grade = await this.studentGradesService.findOne(student_grade_id);
 
     if (!student_grade) {
@@ -50,7 +50,7 @@ export class StudentGradesController {
   @Patch(':id')
   @ApiOkResponse({ type: StudentGradeEntity })
   update(
-    @Param('id', ParseIntPipe) student_grade_id: number,
+    @Param('id', ParseIntPipe) student_grade_id: string,
     @Body() updateStudentGradeDto: UpdateStudentGradeDto,
   ) {
     return this.studentGradesService.update(student_grade_id, updateStudentGradeDto);
@@ -58,7 +58,7 @@ export class StudentGradesController {
 
   @Delete(':id')
   @ApiOkResponse({ type: StudentGradeEntity })
-  remove(@Param('id', ParseIntPipe) student_grade_id: number) {
+  remove(@Param('id', ParseIntPipe) student_grade_id: string) {
     return this.studentGradesService.remove(student_grade_id);
   }
 }

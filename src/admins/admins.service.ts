@@ -17,7 +17,7 @@ export class AdminsService {
     return this.prisma.admin.findMany({ where: {} });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.admin.findUnique({
       where: {
         user_id: id,
@@ -25,7 +25,7 @@ export class AdminsService {
     });
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
+  update(id: string, updateAdminDto: UpdateAdminDto) {
     return this.prisma.admin.update({
       where: {
         user_id: id,
@@ -34,7 +34,7 @@ export class AdminsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.admin.delete({
       where: {
         user_id: id,

@@ -42,8 +42,8 @@ export class ClassInvitesForTeacherController {
   @ApiQuery({ name: 'class_id', required: false })
   @ApiOkResponse({ type: ClassInviteForTeacherEntity })
   async findOne(
-    @Param('class_id', ParseIntPipe) class_id?: number,
-    @Param('teacher_id', ParseIntPipe) teacher_id?: number,
+    @Param('class_id', ParseIntPipe) class_id?: string,
+    @Param('teacher_id', ParseIntPipe) teacher_id?: string,
   ) {
     const invite = await this.classInvitesForTeacherService.find(class_id, teacher_id);
 
@@ -59,8 +59,8 @@ export class ClassInvitesForTeacherController {
   @Patch('/update/teacher_id=:teacher_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassInviteForTeacherEntity })
   update(
-    @Param('class_id', ParseIntPipe) class_id: number,
-    @Param('teacher_id', ParseIntPipe) teacher_id: number,
+    @Param('class_id', ParseIntPipe) class_id: string,
+    @Param('teacher_id', ParseIntPipe) teacher_id: string,
     @Body() updateClassInvitesForTeacherDto: UpdateClassInvitesForTeacherDto,
   ) {
     return this.classInvitesForTeacherService.update(
@@ -73,8 +73,8 @@ export class ClassInvitesForTeacherController {
   @Delete('/remove/teacher_id=:teacher_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassInviteForTeacherEntity })
   remove(
-    @Param('class_id', ParseIntPipe) class_id: number,
-    @Param('teacher_id', ParseIntPipe) teacher_id: number,
+    @Param('class_id', ParseIntPipe) class_id: string,
+    @Param('teacher_id', ParseIntPipe) teacher_id: string,
   ) {
     return this.classInvitesForTeacherService.remove(class_id, teacher_id);
   }

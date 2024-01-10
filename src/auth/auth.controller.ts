@@ -22,7 +22,7 @@ export class AuthController {
   @Get('profileUser')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  getProfileUser(@GetCurrentUserId() userId: number) {
+  getProfileUser(@GetCurrentUserId() userId: string) {
     // console.log('user', userId);
     return this.UsersService.findOne(userId);
   }
@@ -54,7 +54,7 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
-  logout(@GetCurrentUserId() userId: number) {
+  logout(@GetCurrentUserId() userId: string) {
     console.log('userId', userId);
     return this.AuthService.logout(userId);
   }
@@ -65,7 +65,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth()
   refreshTokens(
-    @GetCurrentUserId() userId: number,
+    @GetCurrentUserId() userId: string,
     @GetCurrentUser('refreshToken') refreshToken: string,
   ) {
     return this.AuthService.refreshTokens(userId, refreshToken);

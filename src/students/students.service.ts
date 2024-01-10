@@ -17,7 +17,7 @@ export class StudentsService {
     return this.prisma.student.findMany({ where: {} });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.student.findUnique({
       where: {
         user_id: id,
@@ -25,7 +25,7 @@ export class StudentsService {
     });
   }
 
-  update(id: number, updateStudentDto: UpdateStudentDto) {
+  update(id: string, updateStudentDto: UpdateStudentDto) {
     return this.prisma.student.update({
       where: {
         user_id: id,
@@ -34,7 +34,7 @@ export class StudentsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.student.delete({
       where: {
         user_id: id,

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsIn, IsNotEmpty, IsString } from 'class-validator';
 
 export class AuthSignUpDto {
   @ApiProperty()
@@ -16,5 +16,6 @@ export class AuthSignUpDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsIn(['admin', 'student', 'teacher'], { message: 'Invalid user type' })
   Type: string;
 }

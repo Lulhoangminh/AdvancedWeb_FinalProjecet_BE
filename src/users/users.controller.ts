@@ -42,7 +42,7 @@ export class UsersController {
 
   @Get(':id')
   @ApiOkResponse({ type: UserEntity })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: string) {
     const user = await this.Users.findOne(id);
     console.log(id);
     if (!user) {
@@ -53,13 +53,13 @@ export class UsersController {
 
   @Patch(':id')
   @ApiOkResponse({ type: UserEntity })
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.Users.update(id, updateUserDto);
   }
 
   @Patch(':id/email')
   @ApiOkResponse({ type: UserEntity })
-  updateEmail(@Param('id', ParseIntPipe) id: number, @Body() updateUserEmail: UpdateUseEmailDto) {
+  updateEmail(@Param('id', ParseIntPipe) id: string, @Body() updateUserEmail: UpdateUseEmailDto) {
     const { email } = updateUserEmail;
     return this.Users.updateEmail(id, email);
   }
@@ -67,7 +67,7 @@ export class UsersController {
   @Patch(':id/password')
   @ApiOkResponse({ type: UserEntity })
   updatePassword(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() updateUserPassword: UpdateUserPasswordDto,
   ) {
     const { password } = updateUserPassword;
@@ -76,7 +76,7 @@ export class UsersController {
 
   @Delete(':id')
   @ApiOkResponse({ type: UserEntity })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id', ParseIntPipe) id: string) {
     return this.Users.remove(id);
   }
 }

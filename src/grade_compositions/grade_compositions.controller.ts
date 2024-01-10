@@ -40,7 +40,7 @@ export class GradeCompositionsController {
 
   @Get(':id')
   @ApiOkResponse({ type: GradeCompositionEntity })
-  async findOne(@Param('id', ParseIntPipe) grade_composition_id: number) {
+  async findOne(@Param('id', ParseIntPipe) grade_composition_id: string) {
     const grade_composition = await this.gradeCompositionsService.findOne(grade_composition_id);
 
     if (!grade_composition) {
@@ -53,7 +53,7 @@ export class GradeCompositionsController {
   @Patch(':id')
   @ApiOkResponse({ type: GradeCompositionEntity })
   update(
-    @Param('id', ParseIntPipe) grade_composition_id: number,
+    @Param('id', ParseIntPipe) grade_composition_id: string,
     @Body() updateGradeCompositionDto: UpdateGradeCompositionDto,
   ) {
     return this.gradeCompositionsService.update(grade_composition_id, updateGradeCompositionDto);
@@ -61,14 +61,14 @@ export class GradeCompositionsController {
 
   @Delete(':id')
   @ApiOkResponse({ type: GradeCompositionEntity })
-  remove(@Param('id', ParseIntPipe) grade_composition_id: number) {
+  remove(@Param('id', ParseIntPipe) grade_composition_id: string) {
     return this.gradeCompositionsService.remove(grade_composition_id);
   }
 
   @Patch(':id/mark')
   @ApiOkResponse({ type: GradeCompositionEntity })
   finalizeGradeComposition(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() updateGradeCompositionIsFinalized: UpdateGradeCompositionIsFinalized,
   ) {
     if (!this.gradeCompositionsService.findOne(id)) {

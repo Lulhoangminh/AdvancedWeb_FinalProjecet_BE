@@ -19,7 +19,7 @@ export class ClassInvitesForTeacherService {
     });
   }
 
-  async find(class_id?: number, teacher_id?: number) {
+  async find(class_id?: string, teacher_id?: string) {
     if (class_id && teacher_id) {
       return this.prisma.classInviteForTeacher.findUnique({
         where: {
@@ -46,8 +46,8 @@ export class ClassInvitesForTeacherService {
     }
   }
   update(
-    class_id: number,
-    teacher_id: number,
+    class_id: string,
+    teacher_id: string,
     updateClassInvitesForTeacherDto: UpdateClassInvitesForTeacherDto,
   ) {
     return this.prisma.classInviteForTeacher.update({
@@ -61,7 +61,7 @@ export class ClassInvitesForTeacherService {
     });
   }
 
-  remove(class_id: number, teacher_id: number) {
+  remove(class_id: string, teacher_id: string) {
     return this.prisma.classInviteForTeacher.delete({
       where: {
         class_id_teacher_id: {

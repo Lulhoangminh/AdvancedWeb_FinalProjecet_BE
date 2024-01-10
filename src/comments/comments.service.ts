@@ -19,7 +19,7 @@ export class CommentsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.comment.findUnique({
       where: {
         comment_id: id,
@@ -27,7 +27,7 @@ export class CommentsService {
     });
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
+  update(id: string, updateCommentDto: UpdateCommentDto) {
     return this.prisma.comment.update({
       where: {
         comment_id: id,
@@ -36,7 +36,7 @@ export class CommentsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.comment.delete({
       where: {
         comment_id: id,

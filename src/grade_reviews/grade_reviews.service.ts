@@ -19,7 +19,7 @@ export class GradeReviewsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.gradeReview.findUnique({
       where: {
         grade_review_id: id,
@@ -27,7 +27,7 @@ export class GradeReviewsService {
     });
   }
 
-  update(id: number, updateGradeReviewDto: UpdateGradeReviewDto) {
+  update(id: string, updateGradeReviewDto: UpdateGradeReviewDto) {
     return this.prisma.gradeReview.update({
       where: {
         grade_review_id: id,
@@ -36,7 +36,7 @@ export class GradeReviewsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.gradeReview.delete({
       where: {
         grade_review_id: id,

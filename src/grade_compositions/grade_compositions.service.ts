@@ -20,7 +20,7 @@ export class GradeCompositionsService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.gradeComposition.findUnique({
       where: {
         grade_composition_id: id,
@@ -28,7 +28,7 @@ export class GradeCompositionsService {
     });
   }
 
-  update(id: number, updateGradeCompositionDto: UpdateGradeCompositionDto) {
+  update(id: string, updateGradeCompositionDto: UpdateGradeCompositionDto) {
     return this.prisma.gradeComposition.update({
       where: {
         grade_composition_id: id,
@@ -37,7 +37,7 @@ export class GradeCompositionsService {
     });
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.gradeComposition.delete({
       where: {
         grade_composition_id: id,
@@ -46,7 +46,7 @@ export class GradeCompositionsService {
   }
 
   finalizeGradeComposition(
-    id: number,
+    id: string,
     updateGradeCompositionIsFinalized: UpdateGradeCompositionIsFinalized,
   ) {
     return this.prisma.gradeComposition.update({
