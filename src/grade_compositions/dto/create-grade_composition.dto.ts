@@ -10,16 +10,11 @@ import {
 } from 'class-validator';
 import { GradeComposition } from '@prisma/client';
 
-export class CreateGradeCompositionDto implements GradeComposition {
+export class CreateGradeCompositionDto {
   @ApiProperty()
-  @IsInt({ message: 'grade_composition_id must be an integer' })
-  @IsNotEmpty({ message: 'grade_composition_id is required' })
-  grade_composition_id: number;
-
-  @ApiProperty()
-  @IsInt({ message: 'class_id must be an integer' })
+  @IsString({ message: 'class_id must be an string' })
   @IsNotEmpty({ message: 'class_id is required' })
-  class_id: number;
+  class_id: string;
 
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })

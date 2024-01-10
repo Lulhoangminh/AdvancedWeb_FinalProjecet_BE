@@ -3,8 +3,8 @@ import { ClassMember } from '@prisma/client';
 
 export class ClassMemberEntity implements ClassMember {
   @ApiProperty()
-  student_id: number;
+  student_id: string;
 
   @ApiProperty()
-  class_id: number;
+  class_id: string;
 }

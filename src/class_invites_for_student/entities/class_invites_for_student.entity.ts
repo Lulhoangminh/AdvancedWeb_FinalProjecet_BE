@@ -3,9 +3,9 @@ import { ClassInviteForStudent } from '@prisma/client';
 
 export class ClassInvitesForStudentEntity implements ClassInviteForStudent {
   @ApiProperty()
-  student_id: number;
+  student_id: string;
   @ApiProperty()
-  class_id: number;
+  class_id: string;
   @ApiProperty()
   invited_time: Date;
 }

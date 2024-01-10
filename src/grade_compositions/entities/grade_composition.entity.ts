@@ -3,9 +3,9 @@ import { GradeComposition } from '@prisma/client';
 
 export class GradeCompositionEntity implements GradeComposition {
   @ApiProperty()
-  grade_composition_id: number;
+  grade_composition_id: string;
   @ApiProperty()
-  class_id: number;
+  class_id: string;
   @ApiProperty()
   created_at: Date;
   @ApiProperty()

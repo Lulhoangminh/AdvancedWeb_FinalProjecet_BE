@@ -3,10 +3,10 @@ import { Student } from '@prisma/client';
 
 export class StudentEntity implements Student {
   @ApiProperty()
-  user_id: number;
+  user_id: string;
 
   @ApiProperty()
-  student_id: number;
+  student_id: string;
 
   @ApiProperty()
   created_at: Date;

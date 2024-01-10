@@ -1,16 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsISO8601, IsInt, IsNotEmpty } from 'class-validator';
+import { IsDate, IsISO8601, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateTeacherDto {
   @ApiProperty()
-  @IsInt({ message: 'User ID must be an integer' })
+  @IsString({ message: 'User ID must be an string' })
   @IsNotEmpty({ message: 'User ID is required' })
-  user_id: number;
-
-  @ApiProperty()
-  @IsInt({ message: 'Teacher ID must be an integer' })
-  @IsNotEmpty({ message: 'Teacher ID is required' })
-  teacher_id: number;
+  user_id: string;
 
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })

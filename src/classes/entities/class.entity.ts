@@ -3,7 +3,7 @@ import { Class } from '@prisma/client';
 
 export class ClassEntity implements Class {
   @ApiProperty()
-  class_id: number;
+  class_id: string;
   @ApiProperty()
   created_at: Date;
   @ApiProperty()

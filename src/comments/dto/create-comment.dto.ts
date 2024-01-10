@@ -1,22 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsDate, IsString, IsISO8601 } from 'class-validator';
+import { IsNotEmpty, IsDate, IsString, IsISO8601 } from 'class-validator';
 import { Comment } from '@prisma/client';
 
-export class CreateCommentDto implements Comment {
+export class CreateCommentDto {
   @ApiProperty()
-  @IsInt({ message: 'comment_id must be an integer' })
-  @IsNotEmpty({ message: 'comment_id is required' })
-  comment_id: number;
-
-  @ApiProperty()
-  @IsInt({ message: 'grade_review_id must be an integer' })
+  @IsString({ message: 'grade_review_id must be an string' })
   @IsNotEmpty({ message: 'grade_review_id is required' })
-  grade_review_id: number;
+  grade_review_id: string;
 
   @ApiProperty()
-  @IsInt({ message: 'user_id must be an integer' })
+  @IsString({ message: 'user_id must be an string' })
   @IsNotEmpty({ message: 'user_id is required' })
-  user_id: number;
+  user_id: string;
 
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })

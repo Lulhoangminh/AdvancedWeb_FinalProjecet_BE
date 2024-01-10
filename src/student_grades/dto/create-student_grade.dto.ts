@@ -1,22 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsDate, IsNumber, IsISO8601 } from 'class-validator';
+import { IsInt, IsNotEmpty, IsDate, IsNumber, IsISO8601, IsString } from 'class-validator';
 import { StudentGrade } from '@prisma/client';
 
-export class CreateStudentGradeDto implements StudentGrade {
+export class CreateStudentGradeDto {
   @ApiProperty()
-  @IsInt({ message: 'student_grade_id must be an integer' })
-  @IsNotEmpty({ message: 'student_grade_id is required' })
-  student_grade_id: number;
-
-  @ApiProperty()
-  @IsInt({ message: 'student_id must be an integer' })
+  @IsString({ message: 'student_id must be an string' })
   @IsNotEmpty({ message: 'student_id is required' })
-  student_id: number;
+  student_id: string;
 
   @ApiProperty()
-  @IsInt({ message: 'grade_composition_id must be an integer' })
+  @IsString({ message: 'grade_composition_id must be an string' })
   @IsNotEmpty({ message: 'grade_composition_id is required' })
-  grade_composition_id: number;
+  grade_composition_id: string;
 
   @ApiProperty()
   @IsISO8601({ strict: true }, { message: 'Invalid date format for created_at' })

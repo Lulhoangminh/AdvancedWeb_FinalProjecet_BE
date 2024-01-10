@@ -1,14 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class CreateClassMemberDto {
   @ApiProperty()
-  @IsInt({ message: 'Student ID must be an integer' })
+  @IsString({ message: 'Student ID must be an string' })
   @IsNotEmpty({ message: 'Student ID is required' })
-  student_id: number;
+  student_id: string;
 
   @ApiProperty()
-  @IsInt({ message: 'Class ID must be an integer' })
+  @IsString({ message: 'Class ID must be an string' })
   @IsNotEmpty({ message: 'Class ID is required' })
-  class_id: number;
+  class_id: string;
 }

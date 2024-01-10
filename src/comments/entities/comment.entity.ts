@@ -3,11 +3,11 @@ import { Comment } from '@prisma/client';
 
 export class CommentEntity implements Comment {
   @ApiProperty()
-  comment_id: number;
+  comment_id: string;
   @ApiProperty()
-  grade_review_id: number;
+  grade_review_id: string;
   @ApiProperty()
-  user_id: number;
+  user_id: string;
   @ApiProperty()
   created_at: Date;
   @ApiProperty()
