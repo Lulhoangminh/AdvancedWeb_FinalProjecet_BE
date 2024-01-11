@@ -56,8 +56,8 @@ export class ClassTeachersController {
   @Patch('/update/teacher_id=:teacher_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassTeacherEntity })
   update(
-    @Param('teacher_id', ParseIntPipe) teacher_id: string,
-    @Param('class_id', ParseIntPipe) class_id: string,
+    @Param('teacher_id') teacher_id: string,
+    @Param('class_id') class_id: string,
     @Body() updateClassTeacherDto: UpdateClassTeacherDto,
   ) {
     // console.log(teacher_id, class_id, updateClassTeacherDto);
@@ -66,10 +66,7 @@ export class ClassTeachersController {
 
   @Delete('/remove/teacher_id=:teacher_id&class_id=:class_id')
   @ApiOkResponse({ type: ClassTeacherEntity })
-  remove(
-    @Param('teacher_id', ParseIntPipe) teacher_id: string,
-    @Param('class_id', ParseIntPipe) class_id: string,
-  ) {
+  remove(@Param('teacher_id') teacher_id: string, @Param('class_id') class_id: string) {
     return this.classTeachersService.remove(teacher_id, class_id);
   }
 }

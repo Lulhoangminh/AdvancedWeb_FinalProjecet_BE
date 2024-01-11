@@ -39,7 +39,7 @@ export class AdminsController {
 
   @Get(':id')
   @ApiOkResponse({ type: AdminEntity, isArray: true })
-  async findOne(@Param('id', ParseIntPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     const admin = await this.adminsService.findOne(id);
 
     if (!admin) {
@@ -51,13 +51,13 @@ export class AdminsController {
 
   @Patch(':id')
   @ApiOkResponse({ type: AdminEntity })
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateAdminDto: UpdateAdminDto) {
+  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminsService.update(id, updateAdminDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: AdminEntity })
-  remove(@Param('id', ParseIntPipe) id: string) {
+  remove(@Param('id') id: string) {
     return this.adminsService.remove(id);
   }
 }

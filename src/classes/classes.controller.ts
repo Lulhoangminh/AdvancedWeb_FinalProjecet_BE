@@ -39,7 +39,7 @@ export class ClassesController {
 
   @Get(':id')
   @ApiOkResponse({ type: ClassEntity })
-  async findOne(@Param('id', ParseIntPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     const Class = await this.classesService.findOne(id);
 
     if (!Class) {
@@ -51,18 +51,18 @@ export class ClassesController {
 
   @Patch(':id')
   @ApiOkResponse({ type: ClassEntity })
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateClassDto: UpdateClassDto) {
+  update(@Param('id') id: string, @Body() updateClassDto: UpdateClassDto) {
     return this.classesService.update(id, updateClassDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: ClassEntity })
-  remove(@Param('id', ParseIntPipe) id: string) {
+  remove(@Param('id') id: string) {
     return this.classesService.remove(id);
   }
 
   @Get('/user/:userId')
-  async getClassesByUserId(@Param('userId', ParseIntPipe) userId: string) {
+  async getClassesByUserId(@Param('userId') userId: string) {
     return this.classesService.getClassesByUserId(userId);
   }
 }

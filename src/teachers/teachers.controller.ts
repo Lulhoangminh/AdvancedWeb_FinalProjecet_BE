@@ -39,7 +39,7 @@ export class TeachersController {
 
   @Get(':id')
   @ApiOkResponse({ type: TeacherEntity })
-  async findOne(@Param('id', ParseIntPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     const teacher = await this.teachersService.findOne(id);
     if (!teacher) {
       throw new NotFoundException(`Could not find teacher with id: ${id}.`);
@@ -49,13 +49,13 @@ export class TeachersController {
 
   @Patch(':id')
   @ApiOkResponse({ type: TeacherEntity })
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateTeacherDto: UpdateTeacherDto) {
+  update(@Param('id') id: string, @Body() updateTeacherDto: UpdateTeacherDto) {
     return this.teachersService.update(id, updateTeacherDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: TeacherEntity })
-  remove(@Param('id', ParseIntPipe) id: string) {
+  remove(@Param('id') id: string) {
     return this.teachersService.remove(id);
   }
 }

@@ -42,7 +42,7 @@ export class UsersController {
 
   @Get(':id')
   @ApiOkResponse({ type: UserEntity })
-  async findOne(@Param('id', ParseIntPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     const user = await this.Users.findOne(id);
     console.log(id);
     if (!user) {
@@ -53,30 +53,27 @@ export class UsersController {
 
   @Patch(':id')
   @ApiOkResponse({ type: UserEntity })
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.Users.update(id, updateUserDto);
   }
 
   @Patch(':id/email')
   @ApiOkResponse({ type: UserEntity })
-  updateEmail(@Param('id', ParseIntPipe) id: string, @Body() updateUserEmail: UpdateUseEmailDto) {
+  updateEmail(@Param('id') id: string, @Body() updateUserEmail: UpdateUseEmailDto) {
     const { email } = updateUserEmail;
     return this.Users.updateEmail(id, email);
   }
 
   @Patch(':id/password')
   @ApiOkResponse({ type: UserEntity })
-  updatePassword(
-    @Param('id', ParseIntPipe) id: string,
-    @Body() updateUserPassword: UpdateUserPasswordDto,
-  ) {
+  updatePassword(@Param('id') id: string, @Body() updateUserPassword: UpdateUserPasswordDto) {
     const { password } = updateUserPassword;
     return this.Users.updatePassword(id, password);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: UserEntity })
-  remove(@Param('id', ParseIntPipe) id: string) {
+  remove(@Param('id') id: string) {
     return this.Users.remove(id);
   }
 }

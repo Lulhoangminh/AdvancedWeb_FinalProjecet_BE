@@ -39,7 +39,7 @@ export class StudentsController {
 
   @Get(':id')
   @ApiCreatedResponse({ type: StudentEntity })
-  async findOne(@Param('id', ParseIntPipe) id: string) {
+  async findOne(@Param('id') id: string) {
     const student = await this.studentsService.findOne(id);
 
     if (!student) {
@@ -50,13 +50,13 @@ export class StudentsController {
 
   @Patch(':id')
   @ApiCreatedResponse({ type: StudentEntity })
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateStudentDto: UpdateStudentDto) {
+  update(@Param('id') id: string, @Body() updateStudentDto: UpdateStudentDto) {
     return this.studentsService.update(id, updateStudentDto);
   }
 
   @Delete(':id')
   @ApiCreatedResponse({ type: StudentEntity })
-  remove(@Param('id', ParseIntPipe) id: string) {
+  remove(@Param('id') id: string) {
     return this.studentsService.remove(id);
   }
 }

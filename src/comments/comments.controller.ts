@@ -39,7 +39,7 @@ export class CommentsController {
 
   @Get(':id')
   @ApiOkResponse({ type: CommentEntity })
-  async findOne(@Param('id', ParseIntPipe) comment_id: string) {
+  async findOne(@Param('id') comment_id: string) {
     const comment = await this.commentsService.findOne(comment_id);
 
     if (!comment) {
@@ -51,16 +51,13 @@ export class CommentsController {
 
   @Patch(':id')
   @ApiOkResponse({ type: CommentEntity })
-  update(
-    @Param('id', ParseIntPipe) comment_id: string,
-    @Body() updateCommentDto: UpdateCommentDto,
-  ) {
+  update(@Param('id') comment_id: string, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(comment_id, updateCommentDto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: CommentEntity })
-  remove(@Param('id', ParseIntPipe) comment_id: string) {
+  remove(@Param('id') comment_id: string) {
     return this.commentsService.remove(comment_id);
   }
 }
