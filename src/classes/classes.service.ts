@@ -5,6 +5,13 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ClassesService {
+  findOneByCode(code: string) {
+    return this.prisma.class.findUnique({
+      where: {
+        invite_code: code,
+      },
+    });
+  }
   constructor(private prisma: PrismaService) {}
 
   create(createClassDto: CreateClassDto) {

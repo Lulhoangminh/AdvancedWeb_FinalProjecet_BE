@@ -1,4 +1,14 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Req,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto, AuthSignInDto, AuthSignUpDto } from './dto';
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -10,9 +20,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { GoogleAuthGuard } from 'src/common/guards/google.guard';
 import { AuthSignUpEntity } from './entity/AuthSignUp.Entity';
 import { AuthSignInEntity } from './entity/AuthSignIn.Entity';
+import { PrismaClientExceptionFilter } from 'src/prisma-client-exception/prisma-client-exception.filter';
 
 @ApiTags('auth')
 @Controller('auth')
+@UseFilters(PrismaClientExceptionFilter)
 export class AuthController {
   constructor(
     private AuthService: AuthService,

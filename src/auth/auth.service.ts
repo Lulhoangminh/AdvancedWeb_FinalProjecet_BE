@@ -17,20 +17,43 @@ export class AuthService {
   async signupLocal(dto: AuthSignUpDto): Promise<Tokens> {
     const hash = await this.hashData(dto.password);
 
-    console.log(
-      await this.prisma.user.create({
-        data: {
-          email: dto.email,
-          hash,
-          Type: dto.Type,
-        },
-      }),
-    );
+    const newUser = await this.prisma.user.create({
+      data: {
+        email: dto.email,
+        hash,
+        Type: dto.Type,
+      },
+    });
 
-    // const tokens = await this.getTokens(newUser.id, newUser.email);
-    // await this.updateRtHash(newUser.id, tokens.refresh_token);
-    return null;
+    const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateRtHash(newUser.id, tokens.refresh_token);
+    return tokens;
   }
+
+  // async signupLocal(dto: AuthSignUpDto): Promise<Tokens> {
+  //   try {
+  //     const hash = await this.hashData(dto.password);
+
+  //     const newUser = await this.prisma.user.create({
+  //       data: {
+  //         email: dto.email,
+  //         hash,
+  //         Type: dto.Type,
+  //       },
+  //     });
+
+  //     const tokens = await this.getTokens(newUser.id, newUser.email);
+  //     await this.updateRtHash(newUser.id, tokens.refresh_token);
+  //     return tokens;
+  //   } catch (error) {
+  //     if (error.code === 'P2002' && error.meta?.target?.includes('email')) {
+  //       // Unique constraint violation on the 'email' field
+  //       throw new ConflictException('Email is already in use');
+  //     }
+  //     // Handle other errors or rethrow them if needed
+  //     throw error;
+  //   }
+  // }
 
   async signinLocal(dto: AuthSignInDto): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({

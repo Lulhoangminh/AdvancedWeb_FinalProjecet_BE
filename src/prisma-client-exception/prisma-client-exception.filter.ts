@@ -16,8 +16,9 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         const status = HttpStatus.CONFLICT;
         response.status(status).json({
           statusCode: status,
-          message: message,
+          message: this.extractUniqueConstraintMessage(message),
         });
+        console.log('message', message);
         break;
 
       case 'P2003':
@@ -28,11 +29,29 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         });
         break;
 
+      case 'P2001':
+        const status4 = HttpStatus.BAD_REQUEST;
+        response.status(status4).json({
+          statusCode: status4,
+          message: 'Invalid creation request.',
+        });
+        break;
+
       // TODO catch other error codes (e.g. 'P2000' or 'P2025')
       default:
         // default 500 error code
         super.catch(exception, host);
         break;
     }
+  }
+
+  private extractUniqueConstraintMessage(message: string): string {
+    // Extract the field name causing the unique constraint violation
+    const matches = message.match(/Unique constraint failed on the fields: \((.*?)\)/);
+
+    // If matches are found, return the captured group (field name)
+    const uniqueConstraintField = matches ? matches[1] : 'Unknown field';
+
+    return `Unique constraint failed on ${uniqueConstraintField}`;
   }
 }

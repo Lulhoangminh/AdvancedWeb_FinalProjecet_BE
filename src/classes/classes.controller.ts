@@ -49,6 +49,18 @@ export class ClassesController {
     return Class;
   }
 
+  @Get('/code/:code')
+  @ApiOkResponse({ type: ClassEntity })
+  async findOneByCode(@Param('code') code: string) {
+    const Class_by_code = await this.classesService.findOneByCode(code);
+
+    if (!Class_by_code) {
+      throw new NotFoundException(`Class with code ${code} not found`);
+    }
+
+    return Class_by_code;
+  }
+
   @Patch(':id')
   @ApiOkResponse({ type: ClassEntity })
   update(@Param('id') id: string, @Body() updateClassDto: UpdateClassDto) {

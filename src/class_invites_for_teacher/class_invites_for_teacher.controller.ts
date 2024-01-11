@@ -49,7 +49,7 @@ export class ClassInvitesForTeacherController {
         `Invite with class_id ${class_id} and teacher_id ${teacher_id} not found`,
       );
     }
-    t;
+
     return invite;
   }
 
