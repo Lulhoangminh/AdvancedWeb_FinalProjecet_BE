@@ -3,6 +3,9 @@ import { Admin } from '@prisma/client';
 
 export class AdminEntity implements Admin {
   @ApiProperty()
+  user_id: string;
+
+  @ApiProperty()
   admin_id: string;
 
   @ApiProperty()
@@ -10,7 +13,4 @@ export class AdminEntity implements Admin {
 
   @ApiProperty()
   updated_at: Date;
-
-  @ApiProperty()
-  user_id: string;
 }

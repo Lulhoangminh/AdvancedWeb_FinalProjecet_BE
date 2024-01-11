@@ -12,7 +12,7 @@ export class CreateClassTeacherDto {
   @IsNotEmpty({ message: 'Class ID is required' })
   class_id: string;
 
-  @ApiProperty()
+  @ApiProperty({ default: false })
   @IsNotEmpty({ message: 'isOwner is required' })
   isOwner: boolean;
 }

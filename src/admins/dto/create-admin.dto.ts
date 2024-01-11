@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsInt, IsNotEmpty, IsISO8601, IsString } from 'class-validator';
 
 export class CreateAdminDto {
+  @ApiProperty()
   @IsString({ message: 'User ID must be an string' })
   @IsNotEmpty({ message: 'User ID is required' })
   user_id: string;
