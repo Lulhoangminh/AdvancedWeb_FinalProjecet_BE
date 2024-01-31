@@ -63,9 +63,10 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new ForbiddenException('Access denied');
+      throw new ForbiddenException('Access denied no user');
     }
 
+    console.log('user exists');
     const passwordMatches = await bcrypt.compare(dto.password, user.hash);
 
     if (!passwordMatches) throw new ForbiddenException('Access denied');

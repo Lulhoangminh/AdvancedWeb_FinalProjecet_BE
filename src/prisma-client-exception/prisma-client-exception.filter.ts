@@ -29,13 +29,13 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
         });
         break;
 
-      case 'P2001':
-        const status4 = HttpStatus.BAD_REQUEST;
-        response.status(status4).json({
-          statusCode: status4,
-          message: 'Invalid creation request.',
-        });
-        break;
+      // case 'P2001':
+      //   const status4 = HttpStatus.BAD_REQUEST;
+      //   response.status(status4).json({
+      //     statusCode: status4,
+      //     message: 'Invalid creation request.',
+      //   });
+      //   break;
 
       // TODO catch other error codes (e.g. 'P2000' or 'P2025')
       default:

@@ -60,6 +60,7 @@ export class AuthController {
   @ApiOkResponse({ type: AuthSignInEntity })
   @HttpCode(HttpStatus.OK)
   signinLocal(@Body() signInDto: AuthSignInDto): Promise<Tokens> {
+    console.log('signInDto', signInDto);
     return this.AuthService.signinLocal(signInDto);
   }
 
